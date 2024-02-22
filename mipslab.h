@@ -6,7 +6,10 @@
    Latest update 2015-08-28 by F Lundevall
 
    For copyright and licensing, see file COPYING */
-
+#define BTN_UP 0x1     // Binary 001
+#define BTN_DOWN 0x2    // Binary 010
+#define BTN_SELECT 0x4  // Binary 100 
+#define BTN_RETURN 0x8 //Binary 1000
 /* Declare display-related functions from mipslabfunc.c */
 void start_init (void);
 void display_image(int x, const uint8_t *data);
@@ -23,10 +26,23 @@ void quicksleep(int cyc);
 void tick( unsigned int * timep );
 void labinit( void );
 
-//Timer
+void displayMenu(pointer);
+ void play (void);
+
+//Timers
+void timer2_conf (int setTime);
+void timer2Start (void);
+void timer2_int (void);
+void timer2Start (void);
+void timer2Stop (void);
+
 void timer3_conf (int setTime);
 void timer3Start (void);
 void timer3Stop (void);
+
+void timer4_conf (int setTime);
+void timer4Start (void);
+void timer4Stop (void);
 
 //Game
 void highscore (void);
@@ -92,3 +108,4 @@ char* intToStr(int value);
 
 void new_highscore (int score);
 void view_highscore (void);
+void struct_init (void);

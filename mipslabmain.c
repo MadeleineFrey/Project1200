@@ -21,7 +21,8 @@ int main(void) {
  	display_string(2, "  Highscore");
   	display_update();
 	
-	 //display_image(96, icon);
+	 display_image(96, icon);
+	 display_update();
 	 
 	labinit();
 

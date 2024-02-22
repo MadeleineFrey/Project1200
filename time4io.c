@@ -11,6 +11,6 @@ int getsw(void){
 int getbtns(void){
     //binary 5, 6, 7
     int btn = (PORTD >> 5) & 0x07; //isolate it 5-7
-
+    btn |= (PORTF & 0x2) << 2; //btn 1
     return btn;
 }

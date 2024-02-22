@@ -23,33 +23,19 @@ int pointer = 1; // Start with the first choice selected
 int selected = 0; // No choice selected initially
 
 
-
-char textstring[] = "text, more text, and even more text!";
-#define BTN_UP 0x1     // Binary 001
-#define BTN_DOWN 0x2    // Binary 010
-#define BTN_SELECT 0x4  // Binary 100 
-
 /* Interrupt Service Routine */
 void user_isr( void )
 {
 
 
-  if((IFS(0) & 0x100)){
+  if((IFS(0) & 0x100)){ //Timer 2 interrupts
     IFS(0) &= ~0x100; 
     yaxis_data(&data);
-
-    //det här är för att visa y-värdet
-   // intToStr(data, textstring);
-
-    display_string(1, textstring);
-    display_update();
-    //Det här är för att visa y-värdet
-
     if(data == 1){//1
-      PORTE = 0x01;
+      PORTE = 0x0F;
     }
     else if(data == 0xFF){//-1
-      PORTE = 0x08;
+      PORTE = 0xF0;
     }
     else{
       PORTE = 0;
@@ -64,7 +50,8 @@ void user_isr( void )
 void labinit( void )
 {
   TRISECLR = 0xFF; //Set bit 0-7 at 0
-  TRISD &= 0xFE0; //Set bit 5-11 as inputs 
+  TRISDSET &= 0xFE0; //Set bit 5-11 as inputs 
+  TRISFSET |= 0x1; //enable push button 1
 
 
   //Switch interrupt
@@ -72,37 +59,31 @@ void labinit( void )
   //IEC(0) |= 0x80000; //enable interrupt
   //IPC(4) |= 0x1F000000;
 
-//  enable_interrupt(); //8.6.5 ei
+  //button interrupt
+
+
+ 
 
 
   i2c_init();
   adxl_init();  //PORTE |= 0x4;
   
+  timer2_conf(0.01);
+  timer2_int();
+  timer2Start();
 
-  timer3_conf(0.01);
-  timer3Start();
+  //timer3_conf(0.01);
+  //timer3Start();
+
+  enable_interrupt(); //8.6.5 ei
+  struct_init(); //maybe remove later if we save the score to the flash memory
 
 }
 
 /* This function is called repetitively from the main program */
 void labwork( void )
 {
-  /*
-  int i = random_pipe_number(); //unsigned
-  i &= 0xF;
-
-  if (i > 12){    
-    i -= 10;}
-
-
-  s = intToStr(i);
   
-  display_string(0, "hello");
-  display_string(1, s);
-  display_update();
-  */
-
-
   // select();
  while (!selected) {
          int btns = getbtns();
@@ -126,86 +107,3 @@ void labwork( void )
 }
 }
   
-
-void displayMenu(pointer) {
-         int btns = getbtns();
-
-    display_string(0, "Flappy Bird");
-
-    if(pointer == 1) {
-        display_string(1, "> Play");
-        display_string(2, "  Highscore");
-        display_update();
-        if(btns & BTN_SELECT) {
-        timer3_conf (0.1);
-        timer3Start ();
-        play ();
-
-
-        }
-
-    } else {
-        display_string(1, "  Play");
-        display_string(2, "> Highscore");
-        display_update();
-        if(btns & BTN_SELECT){
-          highscore();
-        } 
-
-    }
-    display_update();
-}
-
-
-// void play_game (void) {
-// 	  // display_string(0, "spela!");
-//     // display_update();
-
-// }
-
- void highscore (void) {
-
-      display_clear();
-      display_update();
-
-      display_string(0, "Highscore");
-      display_string(1, "1: namn1");
-      display_string(2, "2: namn2");
-      display_string(3, "3: namn3");
-      display_update();
-
-         int btns = getbtns();
-
-      // if(btns & BTN_SELECT){
-      //     selected = 0;
-      //     display_clear();
-      //     display_update();
-      //     labwork();
-      //   } 
-
-
-
-
-
- }
-
- void play (void) {
-  display_clear();
-  display_update();
-  run();
-
-
- }
-
-
-// //    if ((getbtns() & 0x4) > 0) { // Check if right button is pressed (bit 2)
-// //   display_clear();
-// //   display_string(0, "Bird");
-// //   display_update();
-// // } else if ((getbtns() & 0x1) > 0) { // Check if left button is pressed (bit 0)
-// //   // Handle left button press logic here
-// //   display_string(2, "> highscore");
-// // }
-
-  
-// }
