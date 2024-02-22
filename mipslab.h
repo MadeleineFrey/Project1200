@@ -60,3 +60,19 @@ void time2string( char *, int );
 int getbtns(void);
 int getsw(void);
 void enable_interrupt(void);
+
+
+
+
+
+
+//I2C accelerometer
+uint8_t i2c_init(void);
+void adxl_init (void);
+void yaxis_data (int * data);
+void xaxis_data (int * data);
+void zaxis_data (int * data);
+
+
+//Written by chatGPT for controling the output of the accelerometer on the display. Not a part of the real program, just for problem solving
+void hexToString(int hex, char* str);

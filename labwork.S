@@ -149,3 +149,8 @@ dfin:	POP	$s2
 	POP	$ra
 	jr	$ra	
 	nop
+
+
+enable_interrupt:
+	ei
+	jr	$ra	
