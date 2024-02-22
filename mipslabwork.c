@@ -19,15 +19,12 @@ int timeoutcount = 0; //new global counter
 int data;
 char* s;
 
-<<<<<<< HEAD
 int pointer = 1; // Start with the first choice selected
 int selected = 0; // No choice selected initially
 
 
 
 char textstring[] = "text, more text, and even more text!";
-=======
->>>>>>> f694485d4d1a467f42b6eeb677c39117bec4f8e1
 #define BTN_UP 0x1     // Binary 001
 #define BTN_DOWN 0x2    // Binary 010
 #define BTN_SELECT 0x4  // Binary 100 
@@ -44,7 +41,7 @@ void user_isr( void )
     //det här är för att visa y-värdet
    // intToStr(data, textstring);
 
-    display_string(1, s);
+    display_string(1, textstring);
     display_update();
     //Det här är för att visa y-värdet
 
@@ -92,10 +89,6 @@ void labwork( void )
 {
   /*
   int i = random_pipe_number(); //unsigned
-  i &= 0xF;
-  if (i>7)
-    i /= 2;
-  
   s = intToStr(i);
   display_string(0, "hello");
   display_string(1, s);
