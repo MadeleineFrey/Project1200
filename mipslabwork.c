@@ -104,7 +104,7 @@ void labwork( void )
   
 }
 
-void displayMenu(int pointer) {
+void displayMenu(pointer) {
          int btns = getbtns();
 
     display_string(0, "Flappy Bird");
