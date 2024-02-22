@@ -15,15 +15,6 @@ int main(void) {
 	start_init();
 	display_init();
 
-<<<<<<< HEAD
-  	 display_string(0, "Flappy Bird");
-  	 display_string(1, "> Play");
- 	 display_string(2, "  Highscore");
-  	 display_update();
-	
-	// display_image(96, icon);
-
-=======
 	
   	display_string(0, "Flappy Bird");
   	display_string(1, "> Play");
@@ -32,7 +23,6 @@ int main(void) {
 	
 	 //display_image(96, icon);
 	 
->>>>>>> f694485d4d1a467f42b6eeb677c39117bec4f8e1
 	labinit();
 
     // Further code for action based on selected choice
