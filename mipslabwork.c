@@ -27,28 +27,64 @@ int selected = 0; // No choice selected initially
 /* Interrupt Service Routine */
 void user_isr( void )
 {
-  return;
+
+
+  if((IFS(0) & 0x100)){
+    IFS(0) &= ~0x100; 
+    yaxis_data(&data);
+
+    //det här är för att visa y-värdet
+    hexToString(data, textstring);
+
+    display_string(1, textstring);
+    display_update();
+    //Det här är för att visa y-värdet
+
+    if(data == 1){//1
+      PORTE = 0x01;
+    }
+    else if(data == 0xFF){//-1
+      PORTE = 0x08;
+    }
+    else{
+      PORTE = 0;
+    }
+  }
+
+  //Acknowledge interrupts
+  //0x001 IFS(0).T2IF
 }
 
 /* Lab-specific initialization goes here */
 void labinit( void )
 {
-  volatile int* trise = (volatile int*) 0xBF886100;
-  *trise &= 0xFF00; //Set bit 0-7 at 0
-
-  volatile int *trisd = (volatile int *)TRISD;
-  *trisd |= (0b1111111 << 5); // only set bits 5 to 11 to 1
-
-  //TRISD &= 0xFE0; //Set bit 5-11 as inputs 
+  TRISECLR = 0xFF; //Set bit 0-7 at 0
+  TRISD &= 0xFE0; //Set bit 5-11 as inputs 
 
   //TIMER
   T2CON = 0x0; //clear the control register
   T2CON = 0x70;  //prescaler 1:256 internal clock bit 15 == ON 0.1 s
   TMR2 = 0x0; //Clear timer register
-  PR2 = ((80000000)/256)*0.1;  //set the time
+  PR2 = ((80000000)/256)/10;  //set the time, calculate this!
+
+  PORTE = 0;
+  //interrupts
+  IFS(0) &= ~0x100; //reset the INT2IF flag
+  IEC(0) |= 0x100; //enable IEC0 T2IE bit 8
+  IPC(2) |= 0x1F; //T2IS bit 0-1 (subpriority), T2IP 2-4 (priority)
+
+  //Switch interrupt
+  //IFS(0) &= ~0x80000;
+  //IEC(0) |= 0x80000; //enable interrupt
+  //IPC(4) |= 0x1F000000;
+
+  enable_interrupt(); //8.6.5 ei
+
   T2CONSET = 0x8000; //start timer
 
-  return;
+  i2c_init();
+  adxl_init();  //PORTE |= 0x4;
+
 }
 
 /* This function is called repetitively from the main program */
