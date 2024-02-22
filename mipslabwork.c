@@ -87,15 +87,22 @@ void labinit( void )
 /* This function is called repetitively from the main program */
 void labwork( void )
 {
-  
+  /*
   int i = random_pipe_number(); //unsigned
+  i &= 0xF;
+
+  if (i > 12){    
+    i -= 10;}
+
+
   s = intToStr(i);
+  
   display_string(0, "hello");
   display_string(1, s);
   display_update();
-  
+  */
 
-/*
+
   // select();
  while (!selected) {
          int btns = getbtns();
@@ -116,7 +123,7 @@ void labwork( void )
 
              break; // Exit the loop
          }
-}*/
+}
 }
   
 

@@ -87,3 +87,8 @@ void zaxis_data (int * data);
 
 //Written by chatGPT for controling the output of the accelerometer on the display. Not a part of the real program, just for problem solving
 char* intToStr(int value);
+
+
+
+void new_highscore (int score);
+void view_highscore (void);

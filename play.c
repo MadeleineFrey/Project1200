@@ -36,15 +36,16 @@
 
 
 
-    char* s;
+char* s;
 int randomPipeNumber = 0;
+int score = 0;
 
 
 uint8_t screen[128*4] = {0}; //Display
 extern uint8_t display[32][128];
 
-double xpos = 0.0; 
-double ypos = 12.0; 
+double xpos = 0; 
+double ypos = 12; 
     
 void clear() {
     int i;
@@ -59,7 +60,7 @@ void draw(uint8_t *arr) {
     int i, j;
     if (xpos + BIRDW > DISPLAY_WIDTH || ypos + BIRDH > DISPLAY_HEIGHT) return;
 
-        uint8_t bird[BIRDH] = {0x11, 0x9, 0x0, 0x8, 0x13};
+        uint8_t bird[BIRDH] = {0b1011, 0b1001, 0b0000, 0b1000, 0b0010};
 
 
     for(i = ypos; i < ypos + BIRDH; i++) {
@@ -67,18 +68,11 @@ void draw(uint8_t *arr) {
             int page = i / PAGE_HEIGHT;
             int bit = i % PAGE_HEIGHT;
 
-            if(bird[i] & (1 << j))
-                arr[page * DISPLAY_WIDTH + j] |= (1 << bit);
-            else
-                arr[page * DISPLAY_WIDTH  + j] &= ~(1 << bit);
-
-            //arr[page * DISPLAY_WIDTH + j] |= (1 << bit); 
+            arr[page * DISPLAY_WIDTH + j] |= (1 << bit); 
         }
-    }
+    }  
 
-
-
-    
+ 
 }
 
 //fixa pixlarna uppe och nere (Maxpunkt)
@@ -104,9 +98,6 @@ void movement(){
             draw(screen); 
             render(screen); 
           }
-
-
-
  }
  
 
@@ -176,4 +167,13 @@ void render(uint8_t *arr) {
         for(j = 0; j < 128; j++)
             spi_send_recv(arr[i*128 + j]); 
     }
+}
+
+void test_highscore (void){
+         int btns = getbtns();
+
+          if (btns & BTN_UP) {
+            score ++;
+          }
+
 }

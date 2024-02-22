@@ -4,32 +4,42 @@
 
 #define NUMSCORES 5
 
+// 
+#define BTN_UP 0x1     // Binary 001
+#define BTN_DOWN 0x2    // Binary 010
+#define SELECT 0x4  //binare 100
+
 char alphapet[] ={'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z'};
 
-struct player1 {
-    
+struct player {
+    int score;
+    char name [4]; 
 };
 
-struct player2 {
-    
-};
+struct player p[5];
+int new_highscore = 5;
+void new_highscore (int score){
+    int i;
+    for ( i = 4; i <= 0; i--)
+    {
+        if(score < p[i].score){
 
-struct player3 {
+        }
+    }
+    //show message of score
+    //timer 3
+    view_highscore();
     
-};
+}
 
-struct player4 {
-    
-};
+char* write_highscore (void){
+    char name[4];
 
-struct player5 {
     
-};
 
-struct player6 {
-    
-};
+}
 
-struct player7 {
-    
-};
+
+void view_highscore (void){
+
+}

@@ -227,7 +227,7 @@ void zaxis_data (int * data){
 }
 
 
-/*Written by chat GPT, just to show the ADXL345 value to the display*/
+//Written by chat GPT, just to show the ADXL345 value to the display
 
 #include <stdio.h>
 #include <stdlib.h> // For malloc and abs
