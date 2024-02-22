@@ -85,6 +85,10 @@ timer3Start();
 void labwork( void )
 {
   int i = random_pipe_number(); //unsigned
+  i &= 0xF;
+  if (i>7)
+    i /= 2;
+  
   s = intToStr(i);
   display_string(0, "hello");
   display_string(1, s);
