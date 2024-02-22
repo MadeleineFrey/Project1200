@@ -25,6 +25,7 @@
   #Erica
  .globl time2string
  .globl delay
+ .globl enable_interrupt
  
  	.data
 	.align 2

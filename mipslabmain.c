@@ -66,7 +66,7 @@ int main(void) {
  	display_string(2, "  Highscore");
   	display_update();
 	// display_image(96, icon);
-	
+	labinit();
 
     // Further code for action based on selected choice
 	while( 1 )

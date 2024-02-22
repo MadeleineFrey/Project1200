@@ -20,6 +20,7 @@ void labwork(void);
 int nextprime( int inval );
 void quicksleep(int cyc);
 void tick( unsigned int * timep );
+void labinit( void );
 
 
 //Game
