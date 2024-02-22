@@ -1,7 +1,7 @@
 #include <pic32mx.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "ADXL345/adxl.h"
+#include "adxl.h"
 
 
 /* Wait for I2C bus to become idle */
