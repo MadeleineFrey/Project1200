@@ -63,16 +63,6 @@ void labinit( void )
   TRISD &= 0xFE0; //Set bit 5-11 as inputs 
 
 
-<<<<<<< HEAD
-  PORTE = 0;
-  //interrupts
-  //IFS(0) &= ~0x100; //reset the INT2IF flag
-  //IEC(0) |= 0x100; //enable IEC0 T2IE bit 8
-  //IPC(2) |= 0x1F; //T2IS bit 0-1 (subpriority), T2IP 2-4 (priority)
-=======
-
-
->>>>>>> 0fb1509e20bc94db8db0b9ae91764c3a6fac67cf
 
   //Switch interrupt
   //IFS(0) &= ~0x80000;
