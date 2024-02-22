@@ -27,13 +27,14 @@ void timer3_conf (int setTime);
 void timer3Start (void);
 void timer3Stop (void);
 
-
-
 //Game
 void highscore (void);
 void play (void);
 void run();
 random_pipe_number();
+
+//menu
+// void select();
 
 
 

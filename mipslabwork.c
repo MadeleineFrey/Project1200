@@ -19,12 +19,15 @@ int timeoutcount = 0; //new global counter
 int data;
 char* s;
 
+int pointer = 1; // Start with the first choice selected
+int selected = 0; // No choice selected initially
+
+
+
 char textstring[] = "text, more text, and even more text!";
 #define BTN_UP 0x1     // Binary 001
 #define BTN_DOWN 0x2    // Binary 010
 #define BTN_SELECT 0x4  // Binary 100 
-int pointer = 1; // Start with the first choice selected
-int selected = 0; // No choice selected initially
 
 /* Interrupt Service Routine */
 void user_isr( void )
@@ -84,14 +87,16 @@ void labinit( void )
 /* This function is called repetitively from the main program */
 void labwork( void )
 {
+  /*
   int i = random_pipe_number(); //unsigned
   s = intToStr(i);
   display_string(0, "hello");
   display_string(1, s);
   display_update();
+  */
 
-	
-    while (!selected) {
+  // select();
+ while (!selected) {
          int btns = getbtns();
 
          if (btns & BTN_DOWN) {
@@ -103,15 +108,16 @@ void labwork( void )
             displayMenu(pointer);
 
          } else if (btns & BTN_SELECT) {
-             selected = pointer; 
+             selected = pointer; // Select the current choice
              displayMenu(pointer);
              display_update();
-              selected = 1; 
+              selected = 1; // No choice selected initially
 
-             break; 
+             break; // Exit the loop
          }
-     }
 }
+}
+  
 
 void displayMenu(pointer) {
          int btns = getbtns();
@@ -142,6 +148,13 @@ void displayMenu(pointer) {
     display_update();
 }
 
+
+// void play_game (void) {
+// 	  // display_string(0, "spela!");
+//     // display_update();
+
+// }
+
  void highscore (void) {
 
       display_clear();
@@ -153,13 +166,38 @@ void displayMenu(pointer) {
       display_string(3, "3: namn3");
       display_update();
 
-      int btns = getbtns();
+         int btns = getbtns();
+
+      // if(btns & BTN_SELECT){
+      //     selected = 0;
+      //     display_clear();
+      //     display_update();
+      //     labwork();
+      //   } 
+
+
+
+
+
  }
 
  void play (void) {
   display_clear();
   display_update();
   run();
- }
-    
 
+
+ }
+
+
+// //    if ((getbtns() & 0x4) > 0) { // Check if right button is pressed (bit 2)
+// //   display_clear();
+// //   display_string(0, "Bird");
+// //   display_update();
+// // } else if ((getbtns() & 0x1) > 0) { // Check if left button is pressed (bit 0)
+// //   // Handle left button press logic here
+// //   display_string(2, "> highscore");
+// // }
+
+  
+// }
