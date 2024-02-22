@@ -67,36 +67,6 @@ int main(void) {
   	display_update();
 	// display_image(96, icon);
 	
-	//labinit(); /* Do any lab-specific initialization */
-	// // menu();
-
-	// #define BTN_UP 1      // Binary 001
-	// #define BTN_DOWN 2    // Binary 010
-	// #define BTN_SELECT 4  // Binary 100 
-	// int pointer = 1; // Start with the first choice selected
-    // int selected = 0; // No choice selected initially
-
-    // while (!selected) {
-    //     displayMenu(pointer);
-    //     int btns = getbtns();
-
-    //     if (btns & BTN_UP) {
-    //         if (pointer > 1) pointer--;
-    //     } else if (btns & BTN_DOWN) {
-    //         if (pointer < 2) pointer++;
-    //     } else if (btns & BTN_SELECT) {
-    //         selected = pointer; // Select the current choice
-            
-    //         char selectionMsg[20];
-    //         snprintf(selectionMsg, sizeof(selectionMsg), "Choice %d selected!", selected);
-    //         display_string(1, selectionMsg); // Display selection on the first line
-    //         break; // Exit the loop
-    //     }
-
-    //     // Add a small delay to debounce buttons and avoid high CPU usage in this loop
-    //     // This delay function is platform-specific and needs to be implemented according to your system requirements
-    //     // For example, in a Unix-like environment, you might use usleep(100000); // Wait for 100 milliseconds
-    // }
 
     // Further code for action based on selected choice
 	while( 1 )
