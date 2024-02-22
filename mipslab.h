@@ -23,7 +23,10 @@ void tick( unsigned int * timep );
 void labinit( void );
 
 //Timer
+void timer3_conf (int setTime);
 void timer3Start (void);
+void timer3Stop (void);
+
 
 
 //Game
