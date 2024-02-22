@@ -1,0 +1,165 @@
+#include <stdint.h>   /* Declarations of uint_32 and the like */
+#include <pic32mx.h>  /* Declarations of system-specific addresses etc */
+#include "mipslab.h"  /* Declatations for these labs */
+#include <stdio.h>
+
+
+//Variables
+#define DISPLAY_CHANGE_TO_COMMAND_MODE (PORTFCLR = 0x10)
+#define DISPLAY_CHANGE_TO_DATA_MODE (PORTFSET = 0x10)
+
+#define DISPLAY_ACTIVATE_RESET (PORTGCLR = 0x200)
+#define DISPLAY_DO_NOT_RESET (PORTGSET = 0x200)
+
+#define DISPLAY_ACTIVATE_VDD (PORTFCLR = 0x40)
+#define DISPLAY_ACTIVATE_VBAT (PORTFCLR = 0x20)
+
+#define DISPLAY_TURN_OFF_VDD (PORTFSET = 0x40)
+#define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
+
+//Height and width of the screen
+#define SCREEN_HEIGHT 32
+#define SCREEN_WIDTH 128
+//Height and width of the bird
+#define BIRDH 4
+#define BIRDW 4
+
+//
+#define DISPLAY_WIDTH 128
+#define DISPLAY_HEIGHT 32 
+#define PAGE_HEIGHT 8 
+#define NUM_PAGES (SCREEN_HEIGHT / PAGE_HEIGHT) 
+
+// 
+#define BTN_UP 0x1     // Binary 001
+#define BTN_DOWN 0x2    // Binary 010
+
+
+uint8_t screen[128*4] = {0}; //Display
+extern uint8_t display[32][128];
+
+double xpos = 0.0; 
+double ypos = 12.0; 
+    
+void clear() {
+    int i;
+    for (i = 0; i < sizeof(screen); i++) {
+        screen[i] = 0;
+    }
+}
+
+uint8_t screen[DISPLAY_WIDTH * NUM_PAGES]; 
+
+void draw(uint8_t *arr) {
+    int i, j;
+    if (xpos + BIRDW > DISPLAY_WIDTH || ypos + BIRDH > DISPLAY_HEIGHT) return;
+
+    for(i = ypos; i < ypos + BIRDH; i++) {
+        for(j = xpos; j < xpos + BIRDW; j++) {
+            int page = i / PAGE_HEIGHT;
+            int bit = i % PAGE_HEIGHT;
+            arr[page * DISPLAY_WIDTH + j] |= (1 << bit); 
+        }
+    }
+}
+
+//fixa pixlarna uppe och nere (Maxpunkt)
+void movement(){
+     int btns = getbtns();
+     if(ypos >= 28){
+                ypos = 27;
+            }
+
+    if(ypos <= 0){
+        ypos = 1;
+    }
+
+          if (btns & BTN_UP) {
+            
+             ypos = ypos + 0.2;
+            draw(screen); 
+            render(screen); 
+          }
+
+           if (btns & BTN_DOWN) {
+             ypos = ypos - 0.2;
+            draw(screen); 
+            render(screen); 
+          }
+
+
+
+ }
+ 
+
+
+// random_pipe_number(){
+    
+//  }
+
+int pseudoRandom() {
+    volatile int val = 0;
+    int i;
+    // Attempt to create variability in `val`
+    for (i = 0; i < 1000; i++) {
+        val += i; // Increment val by i to ensure it changes
+    }
+    // Adjusted to get a value between 3 and 8
+    // This is (val % 6) + 3 to ensure the range is 3 to 8
+    return (val % 6) + 3;
+}
+
+ draw_pipes_under(uint8_t *arr, int x, int y, int w){
+    int i, j;
+    int h = pseudoRandom();
+    if (x + w > DISPLAY_WIDTH || y + h > DISPLAY_HEIGHT) return;
+
+    for(i = y; i < y + h; i++) {
+        for(j = x; j < x + w; j++) {
+            int page = i / PAGE_HEIGHT;
+            int bit = i % PAGE_HEIGHT;
+            arr[page * DISPLAY_WIDTH + j] |= (1 << bit); 
+        }
+    }
+ }
+
+void play_r() {
+int playing = 1; //boolean to known when you are playing or not
+    while(playing) {
+        clear();
+        draw(screen); 
+        render(screen); 
+        movement();
+        draw_pipes_under(screen, 10, 20, 4);
+        render(screen); 
+
+        
+    }
+    }
+
+//Infinite loop that switches between the menu, high score, game, and game over
+void run() {
+    while (1) {
+        play_r();
+    }
+}
+
+void render(uint8_t *arr) {
+    int i, j;
+
+    for(i = 0; i < 4; i++) {
+		DISPLAY_CHANGE_TO_COMMAND_MODE;
+
+//copied from display_image function written by.....
+        spi_send_recv(0x22);
+        spi_send_recv(i);
+
+        spi_send_recv(0 & 0xF);
+        spi_send_recv(0x10 | ((0 >> 4) & 0xF));
+
+		DISPLAY_CHANGE_TO_DATA_MODE;
+
+        for(j = 0; j < 128; j++)
+            spi_send_recv(arr[i*128 + j]); 
+    }
+}
