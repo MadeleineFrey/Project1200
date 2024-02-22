@@ -76,8 +76,8 @@ void labinit( void )
   adxl_init();  //PORTE |= 0x4;
   
 
-timer3_conf(0.01);
-timer3Start();
+  timer3_conf(0.01);
+  timer3Start();
 
 }
 
@@ -91,7 +91,6 @@ void labwork( void )
   display_update();
 
 	
-/*
     while (!selected) {
          int btns = getbtns();
 
@@ -104,22 +103,14 @@ void labwork( void )
             displayMenu(pointer);
 
          } else if (btns & BTN_SELECT) {
-             selected = pointer; // Select the current choice
+             selected = pointer; 
              displayMenu(pointer);
              display_update();
-              selected = 1; // No choice selected initially
+              selected = 1; 
 
-             break; // Exit the loop
+             break; 
          }
-
-  //       // Add a small delay to debounce buttons and avoid high CPU usage in this loop
-  //       // This delay function is platform-specific and needs to be implemented according to your system requirements
-  //       // For example, in a Unix-like environment, you might use usleep(100000); // Wait for 100 milliseconds
      }
-
-
-*/
-  
 }
 
 void displayMenu(pointer) {
@@ -151,13 +142,6 @@ void displayMenu(pointer) {
     display_update();
 }
 
-
-// void play_game (void) {
-// 	  // display_string(0, "spela!");
-//     // display_update();
-
-// }
-
  void highscore (void) {
 
       display_clear();
@@ -169,41 +153,13 @@ void displayMenu(pointer) {
       display_string(3, "3: namn3");
       display_update();
 
-         int btns = getbtns();
-
-      // if(btns & BTN_SELECT){
-      //     selected = 0;
-      //     display_clear();
-      //     display_update();
-      //     labwork();
-      //   } 
-
-
-
-
-
+      int btns = getbtns();
  }
 
  void play (void) {
   display_clear();
   display_update();
   run();
-
-
  }
-
-
-// //    if ((getbtns() & 0x4) > 0) { // Check if right button is pressed (bit 2)
-// //   display_clear();
-// //   display_string(0, "Bird");
-// //   display_update();
-// // } else if ((getbtns() & 0x1) > 0) { // Check if left button is pressed (bit 0)
-// //   // Handle left button press logic here
-// //   display_string(2, "> highscore");
-// // }
-
-  
-// }
-    
     
 
