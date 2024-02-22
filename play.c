@@ -22,7 +22,7 @@
 #define SCREEN_WIDTH 128
 //Height and width of the bird
 #define BIRDH 4
-#define BIRDW 4
+#define BIRDW 5
 
 //
 #define DISPLAY_WIDTH 128
@@ -59,13 +59,26 @@ void draw(uint8_t *arr) {
     int i, j;
     if (xpos + BIRDW > DISPLAY_WIDTH || ypos + BIRDH > DISPLAY_HEIGHT) return;
 
+        uint8_t bird[BIRDH] = {0x11, 0x9, 0x0, 0x8, 0x13};
+
+
     for(i = ypos; i < ypos + BIRDH; i++) {
         for(j = xpos; j < xpos + BIRDW; j++) {
             int page = i / PAGE_HEIGHT;
             int bit = i % PAGE_HEIGHT;
-            arr[page * DISPLAY_WIDTH + j] |= (1 << bit); 
+
+            if(bird[i] & (1 << j))
+                arr[page * DISPLAY_WIDTH + j] |= (1 << bit);
+            else
+                arr[page * DISPLAY_WIDTH  + j] &= ~(1 << bit);
+
+            //arr[page * DISPLAY_WIDTH + j] |= (1 << bit); 
         }
     }
+
+
+
+    
 }
 
 //fixa pixlarna uppe och nere (Maxpunkt)
