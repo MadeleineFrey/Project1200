@@ -19,7 +19,6 @@ int timeoutcount = 0; //new global counter
 int data;
 char* s;
 
-char textstring[] = "text, more text, and even more text!";
 #define BTN_UP 0x1     // Binary 001
 #define BTN_DOWN 0x2    // Binary 010
 #define BTN_SELECT 0x4  // Binary 100 
@@ -38,7 +37,7 @@ void user_isr( void )
     //det här är för att visa y-värdet
    // intToStr(data, textstring);
 
-    display_string(1, textstring);
+    display_string(1, s);
     display_update();
     //Det här är för att visa y-värdet
 
