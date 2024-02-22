@@ -60,12 +60,15 @@ int main(void) {
 	// display_string(2, "Highscore");
 	// display_string(3, "Welcome!");
 	// display_update();
+
 	display_init();
+	/*
   	display_string(0, "Flappy Bird");
   	display_string(1, "> Play");
  	display_string(2, "  Highscore");
   	display_update();
-	// display_image(96, icon);
+	*/
+	 display_image(96, icon);
 	labinit();
 
     // Further code for action based on selected choice

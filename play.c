@@ -36,7 +36,7 @@
 
 
 
-
+    char* s;
 int randomPipeNumber = 0;
 
 
@@ -112,6 +112,7 @@ random_pipe_number(){
  draw_pipes_under(uint8_t *arr, int x, int y, int w){
     int i, j;
     int h = random_pipe_number();
+
     if (x + w > DISPLAY_WIDTH || y + h > DISPLAY_HEIGHT) return;
 
     for(i = y; i < y + h; i++) {

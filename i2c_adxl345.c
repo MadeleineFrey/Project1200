@@ -230,79 +230,59 @@ void zaxis_data (int * data){
 /*Written by chat GPT, just to show the ADXL345 value to the display*/
 
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <stdlib.h> // For malloc and abs
 
-size_t my_strlen(const char* str) {
-    const char* s;
-    for (s = str; *s; ++s) {}
-    return (s - str);
-}
-
-// Utility function to reverse a string
-void reverse(char* str) {
-    int len = my_strlen(str);
-	int i;
-    for (i = 0; i < len / 2; i++) {
-        char temp = str[i];
-        str[i] = str[len - i - 1];
-        str[len - i - 1] = temp;
-    }
-}
-
-// Function to convert a decimal number to a string
-void decimalToString(int number, char* str) {
+char* intToStr(int value) {
+    static char str[12]; // Static storage for return value
     int i = 0;
     int isNegative = 0;
 
     // Handle 0 explicitly
-    if (number == 0) {
+    if (value == 0) {
         str[i++] = '0';
         str[i] = '\0';
-        return;
+        return str;
     }
 
-    // Check for negative numbers
-    if (number < 0) {
+    // Handle negative numbers
+    if (value < 0) {
         isNegative = 1;
-        number = -number;
+        // Special case for INT_MIN
+        if (value == -2147483648) {
+            value += 1; // Adjust to avoid overflow when negated
+        }
+        value = -value;
     }
 
-    // Process individual digits
-    while (number != 0) {
-        int rem = number % 10;
-        str[i++] = rem + '0';
-        number = number / 10;
+    // Fill string with digits in reverse order
+    while (value != 0) {
+        int rem = value % 10;
+        str[i++] = (char)(rem + '0');
+        value = value / 10;
     }
 
-    // If number is negative, append '-'
-    if (isNegative)
+    // Correct for INT_MIN adjustment
+    if (isNegative && str[0] == '7') {
+        str[0] = '8'; // Correct the least significant digit back to 8
+    }
+
+    // Add '-' for negative numbers
+    if (isNegative) {
         str[i++] = '-';
+    }
 
-    str[i] = '\0'; // Append string terminator
+    str[i] = '\0'; // Null-terminate string
 
     // Reverse the string
-    reverse(str);
-}
-
-// Function to convert two's complement hexadecimal to decimal
-int hexToDecimal(int hex) {
-    // Assuming int is 32 bits, check if the hexadecimal number is negative
-    if (hex & 0x80000000) {
-        // If negative, calculate two's complement
-        return -((~hex + 1) & 0xFFFFFFFF);
-    } else {
-        // If positive, return it as is
-        return hex;
+	int start, end;
+    for (start = 0, end = i - 1; start < end; start++, end--) {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
     }
-}
 
-// Main function to convert hex to string
-void hexToString(int hex, char* str) {
-    int decimal = hexToDecimal(hex);
-    decimalToString(decimal, str);
+    return str;
 }
-
 
 
 

@@ -17,6 +17,7 @@
 int mytime = 0x5957;
 int timeoutcount = 0; //new global counter
 int data;
+char* s;
 
 char textstring[] = "text, more text, and even more text!";
 #define BTN_UP 0x1     // Binary 001
@@ -35,7 +36,7 @@ void user_isr( void )
     yaxis_data(&data);
 
     //det här är för att visa y-värdet
-    hexToString(data, textstring);
+   // intToStr(data, textstring);
 
     display_string(1, textstring);
     display_update();
@@ -75,33 +76,22 @@ void labinit( void )
   adxl_init();  //PORTE |= 0x4;
   
 
-
+timer3_conf(0.01);
+timer3Start();
 
 }
 
 /* This function is called repetitively from the main program */
 void labwork( void )
 {
-  // display_image(96, icon);
+  int i = random_pipe_number(); //unsigned
+  s = intToStr(i);
+  display_string(0, "hello");
+  display_string(1, s);
+  display_update();
 
-  //   if ((getbtns() & 0x2) > 0){
-  //   display_string(0, "Flappy Bird");
-	//   display_string(2, "Highscore");
-	//   display_string(3, "Welcome!");
-	//   display_update();
-	//   display_string(1, "> Play");
-  // }
-  
-  // if ((getbtns() & 0x1) > 0){
-	//   display_string(0, "Flappy Bird");
-	//   display_string(1, "Play");
-	//   display_string(3, "Welcome!");
-	//   display_update();
-	//   display_string(2, "> highscore");
-  //   highscore();
-  //   }
 	
-
+/*
     while (!selected) {
          int btns = getbtns();
 
@@ -128,7 +118,7 @@ void labwork( void )
      }
 
 
-
+*/
   
 }
 

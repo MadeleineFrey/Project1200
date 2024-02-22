@@ -33,6 +33,7 @@ void timer3Stop (void);
 void highscore (void);
 void play (void);
 void run();
+random_pipe_number();
 
 
 
@@ -83,4 +84,4 @@ void zaxis_data (int * data);
 
 
 //Written by chatGPT for controling the output of the accelerometer on the display. Not a part of the real program, just for problem solving
-void hexToString(int hex, char* str);
+char* intToStr(int value);
