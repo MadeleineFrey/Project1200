@@ -16,6 +16,7 @@
 
 int mytime = 0x5957;
 int timeoutcount = 0; //new global counter
+int data;
 
 char textstring[] = "text, more text, and even more text!";
 #define BTN_UP 0x1     // Binary 001
