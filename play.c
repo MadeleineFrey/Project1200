@@ -95,9 +95,14 @@ void movement(){
  
 
 
-// random_pipe_number(){
-    
-//  }
+random_pipe_number(){
+
+    int randomSeed = 0;
+    int randTemp; //RANDOM SEED 0-9. Gets defined when user presses up btn 3
+    randomSeed = randTemp;
+
+      return randomSeed;
+}
 
 
 
@@ -133,6 +138,8 @@ int playing = 1; //boolean to known when you are playing or not
 void run() {
     while (1) {
         play_r();
+        timer3_conf (100);
+        timer3Start ();
     }
 }
 
