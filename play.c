@@ -34,6 +34,8 @@
 #define BTN_UP 0x1     // Binary 001
 #define BTN_DOWN 0x2    // Binary 010
 
+int randomPipeNumber = 0;
+
 
 uint8_t screen[128*4] = {0}; //Display
 extern uint8_t display[32][128];
@@ -97,17 +99,7 @@ void movement(){
     
 //  }
 
-int pseudoRandom() {
-    volatile int val = 0;
-    int i;
-    // Attempt to create variability in `val`
-    for (i = 0; i < 1000; i++) {
-        val += i; // Increment val by i to ensure it changes
-    }
-    // Adjusted to get a value between 3 and 8
-    // This is (val % 6) + 3 to ensure the range is 3 to 8
-    return (val % 6) + 3;
-}
+
 
  draw_pipes_under(uint8_t *arr, int x, int y, int w){
     int i, j;

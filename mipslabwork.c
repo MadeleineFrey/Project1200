@@ -70,16 +70,16 @@ void labinit( void )
 
   PORTE = 0;
   //interrupts
-  IFS(0) &= ~0x100; //reset the INT2IF flag
-  IEC(0) |= 0x100; //enable IEC0 T2IE bit 8
-  IPC(2) |= 0x1F; //T2IS bit 0-1 (subpriority), T2IP 2-4 (priority)
+  //IFS(0) &= ~0x100; //reset the INT2IF flag
+  //IEC(0) |= 0x100; //enable IEC0 T2IE bit 8
+  //IPC(2) |= 0x1F; //T2IS bit 0-1 (subpriority), T2IP 2-4 (priority)
 
   //Switch interrupt
   //IFS(0) &= ~0x80000;
   //IEC(0) |= 0x80000; //enable interrupt
   //IPC(4) |= 0x1F000000;
 
-  enable_interrupt(); //8.6.5 ei
+//  enable_interrupt(); //8.6.5 ei
 
   T2CONSET = 0x8000; //start timer
 
