@@ -30,11 +30,15 @@ void timer1_conf (int setTime){
 
 void timer3_conf (int setTime){
     T3CON = 0x0; //clear the control register
-  T3CON = 0x70;  //prescaler 1:256 internal clock bit 15 == ON 0.1 s
-  TMR3 = 0x0; //Clear timer register
-  PR3 = ((80000000)/256)*setTime;  //set the time
+    T3CON = 0x70;  //prescaler 1:256 internal clock bit 15 == ON 0.1 s
+    TMR3 = 0x0; //Clear timer register
+    PR3 = ((80000000)/256)*setTime;  //set the time
 }
 
 void timer3Start (void){
     T3CONSET = 0x8000; //start timer
+}
+
+void timer3Stop (void){
+    T3CONSET = ~0x8000; //start timer
 }
