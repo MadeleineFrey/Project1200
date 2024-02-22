@@ -22,11 +22,15 @@ void quicksleep(int cyc);
 void tick( unsigned int * timep );
 void labinit( void );
 
+//Timer
+void timer3Start (void);
+
 
 //Game
 void highscore (void);
 void play (void);
 void run();
+
 
 
 /* Declare display_debug - a function to help debugging.
