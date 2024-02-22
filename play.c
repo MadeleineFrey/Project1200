@@ -34,6 +34,9 @@
 #define BTN_UP 0x1     // Binary 001
 #define BTN_DOWN 0x2    // Binary 010
 
+
+
+
 int randomPipeNumber = 0;
 
 
@@ -98,7 +101,7 @@ void movement(){
 random_pipe_number(){
 
     int randomSeed = 0;
-    int randTemp; //RANDOM SEED 0-9. Gets defined when user presses up btn 3
+    int randTemp = TMR3;
     randomSeed = randTemp;
 
       return randomSeed;
@@ -108,7 +111,7 @@ random_pipe_number(){
 
  draw_pipes_under(uint8_t *arr, int x, int y, int w){
     int i, j;
-    int h = pseudoRandom();
+    int h = random_pipe_number();
     if (x + w > DISPLAY_WIDTH || y + h > DISPLAY_HEIGHT) return;
 
     for(i = y; i < y + h; i++) {
@@ -138,8 +141,6 @@ int playing = 1; //boolean to known when you are playing or not
 void run() {
     while (1) {
         play_r();
-        timer3_conf (100);
-        timer3Start ();
     }
 }
 
