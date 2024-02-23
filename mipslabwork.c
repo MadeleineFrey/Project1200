@@ -14,10 +14,11 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
-int mytime = 0x5957;
-int timeoutcount = 0; //new global counter
+
 int data;
-char *s;
+int b;
+int BTN_VALUE = 0;
+
 
 
 /* Interrupt Service Routine */
@@ -37,6 +38,17 @@ void user_isr( void )
     else{
       PORTE = 0;
       ADXL_VALUE = 0;
+    }
+
+    b = getbtns();
+    if(b == BTN_DOWN){//1
+      BTN_VALUE = 1;
+    }
+    else if(b == BTN_UP){//-1
+      BTN_VALUE = -1;
+    }
+    else{
+      BTN_VALUE = 0;
     }
   }
 
@@ -94,10 +106,12 @@ void start_menu (void){
          if ((btns & BTN_DOWN)) {
              if (pointer > 1) pointer--;
             displayMenu(pointer);
+            wait_0_2();
 
          } else if ((btns & BTN_UP)) {
              if (pointer < 2) pointer++;
             displayMenu(pointer);
+            wait_0_2();
 
          } else if ((btns & BTN_SELECT)) {
              selected = pointer; // Select the current choice

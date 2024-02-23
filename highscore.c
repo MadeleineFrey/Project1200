@@ -152,14 +152,16 @@ void sort_score (int index){
 
 void write_highscore (int score, int index){
     sort_score(index); //Gives place for the new highscore
-    int i=0, j=0, count=0, btns=0, status=0;
+    int i=0, j=0, count=0, btns=0;
 
     for ( i = 0; i < 3; i++)
         p[index].name[i]= ' ';//remove name
     p[index].name[3]='\0';
 
     p[index].score = score;//Save the score
+
     i = 0;
+
     display_string(0, "Enter your name,");
     display_string(1, "use three letters:");
     display_string(2, p[index].name);
@@ -169,29 +171,31 @@ void write_highscore (int score, int index){
     {
         btns = getbtns();
         p[index].name[i]=alphapet[j];
+        wait_0_1();
+        display_update();
         display_string(2, p[index].name);
-        if ((btns & BTN_SELECT) && !status)
+        if ((btns & BTN_SELECT))
         {
             display_update();
-            status = 1;
             count++;
             i++;
             p[index].name[i]=alphapet[j];
+            wait_0_1();
         }
-        else if((btns & BTN_UP) && !status){
+        else if((btns & BTN_UP)){
             if(j < 25) {
                 j++;
                 display_update();
-                status = 1;}
+                wait_0_1();
+                }
         }
-        else if((btns & BTN_DOWN) && !status){
+        else if((btns & BTN_DOWN)){
             if(j > 0) {
                 j--;
                 display_update();
-                status = 1;}
+                wait_0_1();
+                }
         }
-        else if(btns == 0)
-            status = 0;  
 
 
     }  
@@ -248,8 +252,8 @@ void new_highscore (int score){
     if (index != -1)
     {
         display_string(0, "Congratulations!");
-        display_string(1, "You made it to");
-        display_string(2, "the highscore!");
+        display_string(1, "You made it");
+        display_string(2, "to the highscore!");
         display_string(3, temp);
         display_update();
         
@@ -277,26 +281,23 @@ void new_highscore (int score){
 void view_highscore (void){
     display_clear();
     int pos = 0;
-    int status = 1;
     int btns = 0;
 
     highscore_list(pos);
     wait_1();
  while (!(btns & BTN_SELECT)) {//
          btns = getbtns();
-         if ((btns & BTN_DOWN) && status) {
-            status = 0;
+         if ((btns & BTN_DOWN)) {
+            wait_0_2();
              if (pos > 0) pos--;
                 highscore_list(pos);
 
-         } else if (btns & BTN_UP && status) {
-            status = 0;
+         } else if (btns & BTN_UP) {
+            wait_0_2();
              if (pos < 2) pos++;
             highscore_list(pos);
         }
-        else if (btns == 0)
-            status = 1;        
-    } 
+    }
     display_clear(); 
     start_menu();
 }

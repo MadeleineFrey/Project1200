@@ -2,6 +2,7 @@
 initierat BTN_RETURN. Det är knappen längst till höger som vi kan använda som en tillbaka knapp
 
 Flyttade define BTN till h-filen så vi kommer åt dem i alla filer
+La även till globala variabler för input från knappar och accelerometern under spelet
 
 Jag ändrade så att jag satte menyn under labwork i en funktion. Detta är för att kunna hoppa tillbaka till menyn från highscore - listan. 
 Jag vet dock inte om man vill använda knappen längst till vänster för return ellet till höger??

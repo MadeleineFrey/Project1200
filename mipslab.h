@@ -12,6 +12,7 @@
 #define BTN_RETURN 0x8 //Binary 1000
 
 extern int ADXL_VALUE;
+extern int BTN_VALUE;
 
 #define TMR1_FLAG 0x10
 #define TMR2_FLAG 0x100
