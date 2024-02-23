@@ -56,6 +56,8 @@ void timer5Start (void);
 void timer5Stop (void);
 void timer5_interrupt (void);
 
+void wait_0_1 (void);
+void wait_0_2 (void);
 void wait_0_5 (void);
 void wait_1 (void);
 void wait_2 (void);

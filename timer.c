@@ -70,6 +70,34 @@ void timer5Stop (void){
     T5CONSET = ~0x8000; //stop timer
 }
 
+void wait_0_1 (void){
+    int i=0;
+    timer2_conf(0.1);
+    timer2Start();
+    while (i < 1)
+    {
+      if(IFS(0) & TMR2_FLAG){
+        IFS(0) &= ~TMR2_FLAG;
+        i++;
+      }
+    }
+    timer2Stop();
+}
+
+void wait_0_2 (void){
+    int i=0;
+    timer2_conf(0.1);
+    timer2Start();
+    while (i < 2)
+    {
+      if(IFS(0) & TMR2_FLAG){
+        IFS(0) &= ~TMR2_FLAG;
+        i++;
+      }
+    }
+    timer2Stop();
+}
+
 void wait_0_5 (void){
     int i=0;
     timer2_conf(0.1);
