@@ -13,20 +13,14 @@
 
 int main(void) {
 	start_init();
-	display_init();
-
-	
-  	display_string(0, "Flappy Bird");
-  	display_string(1, "> Play");
- 	display_string(2, "  Highscore");
-  	display_update();
-	
-	 display_image(96, icon);
-	 display_update();
-	 
+	display_init();	 
 	labinit();
+	display_clear();
+	display_update();
 
-    // Further code for action based on selected choice
+	icon_move_start(); //bird in the startup
+
+	display_clear();
 	while( 1 )
 	{
 	  labwork(); /* Do lab-specific things again and again */

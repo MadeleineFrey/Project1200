@@ -10,6 +10,12 @@
 #define BTN_DOWN 0x2    // Binary 010
 #define BTN_SELECT 0x4  // Binary 100 
 #define BTN_RETURN 0x8 //Binary 1000
+
+#define TMR1_FLAG 0x10
+#define TMR2_FLAG 0x100
+#define TMR3_FLAG 0x1000
+#define TMR4_FLAG 0x10000
+#define TMR5_FLAG 0x100000
 /* Declare display-related functions from mipslabfunc.c */
 void start_init (void);
 void display_image(int x, const uint8_t *data);
@@ -26,23 +32,33 @@ void quicksleep(int cyc);
 void tick( unsigned int * timep );
 void labinit( void );
 
+void start_menu (void);
 void displayMenu(pointer);
  void play (void);
 
 //Timers
-void timer2_conf (int setTime);
-void timer2Start (void);
-void timer2_int (void);
+void timer2_conf (float setTime);
 void timer2Start (void);
 void timer2Stop (void);
 
-void timer3_conf (int setTime);
+void timer3_conf (float setTime);
 void timer3Start (void);
 void timer3Stop (void);
 
-void timer4_conf (int setTime);
+void timer4_conf (float setTime);
 void timer4Start (void);
 void timer4Stop (void);
+
+void timer5_conf (float setTime);
+void timer5Start (void);
+void timer5Stop (void);
+
+void wait_0_5 (void);
+void wait_1 (void);
+void wait_2 (void);
+void wait_3 (void);
+void wait_4 (void);
+void wait_5 (void);
 
 //Game
 void highscore (void);
@@ -73,6 +89,7 @@ void display_debug( volatile int * const addr );
 extern const uint8_t const font[128*8];
 /* Declare bitmap array containing icon */
 extern const uint8_t const icon[128];
+extern const uint8_t const icon2[128];
 /* Declare text buffer for display output */
 extern char textbuffer[4][16];
 
@@ -109,3 +126,6 @@ char* intToStr(int value);
 void new_highscore (int score);
 void view_highscore (void);
 void struct_init (void);
+void test_highscore(void);
+
+void icon_move (void);

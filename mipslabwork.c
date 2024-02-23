@@ -17,10 +17,7 @@
 int mytime = 0x5957;
 int timeoutcount = 0; //new global counter
 int data;
-char* s;
-
-int pointer = 1; // Start with the first choice selected
-int selected = 0; // No choice selected initially
+char *s;
 
 
 /* Interrupt Service Routine */
@@ -53,50 +50,51 @@ void labinit( void )
   TRISDSET &= 0xFE0; //Set bit 5-11 as inputs 
   TRISFSET |= 0x1; //enable push button 1
 
-
-  //Switch interrupt
-  //IFS(0) &= ~0x80000;
-  //IEC(0) |= 0x80000; //enable interrupt
-  //IPC(4) |= 0x1F000000;
-
-  //button interrupt
-
-
- 
-
-
   i2c_init();
   adxl_init();  //PORTE |= 0x4;
-  
-  timer2_conf(0.01);
-  timer2_int();
-  timer2Start();
+  struct_init(); //may be remove later if we save the score to the flash memory
 
-  //timer3_conf(0.01);
-  //timer3Start();
 
-  enable_interrupt(); //8.6.5 ei
-  struct_init(); //maybe remove later if we save the score to the flash memory
+  timer5_conf(0.1);
+  timer5Start();  
+
+
 
 }
 
 /* This function is called repetitively from the main program */
 void labwork( void )
-{
+{ 
+
+  start_menu();
+ 
+}
   
-  // select();
- while (!selected) {
+void start_menu (void){
+  int pointer = 1; // Start with the first choice selected
+  int selected = 0; // No choice selected initially
+
+    display_string(0, "Flappy Bird");
+  	display_string(1, "> Play");
+ 	  display_string(2, "  Highscore");
+  	display_update();
+    display_image(96, icon);
+    wait_1();
+
+
+   while (!selected) {
          int btns = getbtns();
 
-         if (btns & BTN_DOWN) {
+
+         if ((btns & BTN_DOWN)) {
              if (pointer > 1) pointer--;
             displayMenu(pointer);
 
-         } else if (btns & BTN_UP) {
+         } else if ((btns & BTN_UP)) {
              if (pointer < 2) pointer++;
             displayMenu(pointer);
 
-         } else if (btns & BTN_SELECT) {
+         } else if ((btns & BTN_SELECT)) {
              selected = pointer; // Select the current choice
              displayMenu(pointer);
              display_update();
@@ -104,6 +102,5 @@ void labwork( void )
 
              break; // Exit the loop
          }
+  } 
 }
-}
-  

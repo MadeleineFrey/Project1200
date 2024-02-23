@@ -2,9 +2,13 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
-#define BTN_UP 0x1     // Binary 001
-#define BTN_DOWN 0x2    // Binary 010
-#define BTN_SELECT 0x4  // Binary 100 
+//Kan vi ta bort denna kanske?
+
+
+
+
+
+
 // int pointer = 1; // Start with the first choice selected
 /*int selected = 0; // No choice selected initially
 int pointer = 1; // Start with the first choice selected

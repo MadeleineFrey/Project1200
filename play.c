@@ -30,9 +30,7 @@
 #define PAGE_HEIGHT 8 
 #define NUM_PAGES (SCREEN_HEIGHT / PAGE_HEIGHT) 
 
-// 
-#define BTN_UP 0x1     // Binary 001
-#define BTN_DOWN 0x2    // Binary 010
+
 
 
 
@@ -106,8 +104,10 @@ random_pipe_number(){
 
     int randomSeed = 0;
     int randTemp = TMR3;
-    randomSeed = randTemp;
-
+    randomSeed = (randTemp & 0xF);
+    if (randomSeed > 12)
+        randomSeed -= 10;
+    
       return randomSeed;
 }
 
@@ -167,13 +167,4 @@ void render(uint8_t *arr) {
         for(j = 0; j < 128; j++)
             spi_send_recv(arr[i*128 + j]); 
     }
-}
-
-void test_highscore (void){
-         int btns = getbtns();
-
-          if (btns & BTN_UP) {
-            score ++;
-          }
-
 }

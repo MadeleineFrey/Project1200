@@ -6,15 +6,16 @@ void displayMenu(pointer) {
          int btns = getbtns();
 
     display_string(0, "Flappy Bird");
-
     if(pointer == 1) {
         display_string(1, "> Play");
         display_string(2, "  Highscore");
         display_update();
+
         if(btns & BTN_SELECT) {
         timer3_conf (0.1);
         timer3Start ();
-        play ();
+        //play ();
+        test_highscore();
         }
 
 
@@ -28,6 +29,7 @@ void displayMenu(pointer) {
 
     }
     display_update();
+
 }
 
  void play (void) {
@@ -39,7 +41,30 @@ void displayMenu(pointer) {
  }
 
 
-
+void icon_move (void){
+  int count = 0;
+  display_image(96, icon);
+  while (count<4)
+  {
+    wait_0_5();
+    display_image(96, icon2);
+    wait_0_5();  
+    display_image(96, icon);
+    count++;
+  }
+}
+void icon_move_start (void){
+  int count = 0;
+  display_image(50, icon);
+  while (count<5)
+  {
+    wait_0_5();
+    display_image(50, icon2);
+    wait_0_5();  
+    display_image(50, icon);
+    count++;
+  }
+}
 
 // void play_game (void) {
 // 	  // display_string(0, "spela!");
