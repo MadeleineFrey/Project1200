@@ -56,6 +56,12 @@ void timer5_conf (float setTime){
     PR5 = ((80000000)/256)*setTime;  //set the time
 }
 
+void timer5_interrupt (void){
+      IFS(0) &= ~TMR5_FLAG;
+      IEC(0) |= (1 << 20);
+      IPC(5) |= (0x1F); 
+}
+
 void timer5Start (void){
     T5CONSET = 0x8000; //start timer
 }

@@ -68,8 +68,11 @@ void scoreToStr(int score, char* str){
 
     if (len > 4){
         display_string(0, "Score to high");
+        display_string(1, "highest score is");
+        display_string(2, "9999");
         display_update();
-        //TIMER!!!!!
+        wait_2();
+        displayMenu();
     }
 
     for ( i = len-1; i >= 0; i--) //extract each digit of the integer and store it in the char array.
@@ -131,14 +134,19 @@ void highscore_list (int pos){
 }
 
 
-int sort_score (int index){
+void sort_score (int index){
     int i;
-
     for ( i = 4; i > index; i--) 
     {
         p[i] = cpy_struct(p[i-1]);
     }
-    return 0;
+    for ( i = 0; i < 5; i++)
+    {
+        p[i].place[0]='1'+i;
+        p[i].place[1] = '.';
+        p[i].place[2]='\0';  
+    }
+ 
 }
 
 
@@ -152,32 +160,35 @@ void write_highscore (int score, int index){
 
     p[index].score = score;//Save the score
     i = 0;
-    display_string(0, "Enter your name:");
-    display_string(1, p[index].name);
+    display_string(0, "Enter your name,");
+    display_string(1, "use three letters:");
+    display_string(2, p[index].name);
     display_update();
 
     while (count != 3)//insert three charachers
     {
         btns = getbtns();
         p[index].name[i]=alphapet[j];
-        display_string(1, p[index].name);
+        display_string(2, p[index].name);
         if ((btns & BTN_SELECT) && !status)
         {
-
             display_update();
             status = 1;
-                        count++;
+            count++;
             i++;
-        }
-        else if((btns & BTN_DOWN) && !status){
-            if(j < 25) j++;
-            display_update();
-            status = 1;
+            p[index].name[i]=alphapet[j];
         }
         else if((btns & BTN_UP) && !status){
-            if(j > 0) j--;
-            display_update();
-            status = 1;
+            if(j < 25) {
+                j++;
+                display_update();
+                status = 1;}
+        }
+        else if((btns & BTN_DOWN) && !status){
+            if(j > 0) {
+                j--;
+                display_update();
+                status = 1;}
         }
         else if(btns == 0)
             status = 0;  

@@ -11,6 +11,8 @@
 #define BTN_SELECT 0x4  // Binary 100 
 #define BTN_RETURN 0x8 //Binary 1000
 
+extern int ADXL_VALUE;
+
 #define TMR1_FLAG 0x10
 #define TMR2_FLAG 0x100
 #define TMR3_FLAG 0x1000
@@ -52,6 +54,7 @@ void timer4Stop (void);
 void timer5_conf (float setTime);
 void timer5Start (void);
 void timer5Stop (void);
+void timer5_interrupt (void);
 
 void wait_0_5 (void);
 void wait_1 (void);

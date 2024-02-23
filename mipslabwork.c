@@ -23,19 +23,20 @@ char *s;
 /* Interrupt Service Routine */
 void user_isr( void )
 {
-
-
-  if((IFS(0) & 0x100)){ //Timer 2 interrupts
-    IFS(0) &= ~0x100; 
+  if((IFS(0) & TMR5_FLAG)){ //Timer 2 interrupts
+    IFS(0) &= ~TMR5_FLAG; 
     yaxis_data(&data);
     if(data == 1){//1
       PORTE = 0x0F;
+      ADXL_VALUE = 1;
     }
     else if(data == 0xFF){//-1
       PORTE = 0xF0;
+      ADXL_VALUE = -1;
     }
     else{
       PORTE = 0;
+      ADXL_VALUE = 0;
     }
   }
 
@@ -55,7 +56,10 @@ void labinit( void )
   struct_init(); //may be remove later if we save the score to the flash memory
 
 
-  timer5_conf(0.1);
+  //This one can start when the game starts
+  timer5_conf(0.01);
+  timer5_interrupt();
+  enable_interrupt();
   timer5Start();  
 
 
@@ -78,8 +82,9 @@ void start_menu (void){
   	display_string(1, "> Play");
  	  display_string(2, "  Highscore");
   	display_update();
-    display_image(96, icon);
-    wait_1();
+    //display_image(96, icon);
+
+    wait_1();//This wait is to prevent dubble click
 
 
    while (!selected) {

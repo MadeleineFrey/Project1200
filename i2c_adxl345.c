@@ -2,11 +2,30 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "adxl.h"
+#include "mipslab.h"  
 
+int ADXL_VALUE=0; //This one is the signal from the accelerometer
 
 /* Wait for I2C bus to become idle */
 void i2c_idle() {
-	while(I2C1CON & 0x1F || I2C1STAT & (1 << 14)); //TRSTAT
+	timer4_conf(0.1);
+	int count = 0;
+	while(I2C1CON & 0x1F || I2C1STAT & (1 << 14)){//TRSTAT
+		if (IFS(0) & TMR4_FLAG)
+		{
+			IFS(0) &= ~TMR4_FLAG;
+			count++;
+		}
+		if (count == 50)
+		{
+			display_string(0, "Problem with");
+			display_string(1, "accelerometer");
+			display_string(2, "check wires");
+			display_update();
+			wait_3();
+			displayMenu();
+		}
+	} 
 }//ACKEN, RCEN, PEN, RSEN, SEN
 
 
