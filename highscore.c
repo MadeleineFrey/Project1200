@@ -1,37 +1,40 @@
-#include <stdint.h>   /* Declarations of uint_32 and the like */
-#include <pic32mx.h>  /* Declarations of system-specific addresses etc */
-#include "mipslab.h"  /* Declatations for these labs */
+#include <stdint.h>   
+#include <pic32mx.h>  
+#include "mipslab.h" 
 #include <string.h>
 
 
 /*This document is created by Erica*/
 
 
-char alphapet[] ={'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+/*An array that hold the alphabet for the writing*/
+char alphabet[] ={'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
+/*A struct that hold information from the highscore list. Place is a chare array that hold the position and a dott after that. 
+That corresponds to wich position in the struct array the player is and the position on the highscore list. The name stores three letters and a null
+terminator. The score holds the score upp to 9999. The limit of the score is set in a char array when the score is displayed*/
 struct player {
     char place[3]; 
     int score;
     char name [5]; //3 letters
 };
-
+/*Hold the five players on the highscore list*/
 struct player p[5];
 
+/*A multidimensional char array (string array) that holds the information that's shown at the highscore list*/
+char display_score[3][12]; 
 
-
-char display_score[3][12]; //char to hold string array for displaying highscore
-
-
-void struct_init (void){//Initialize all scores to 0;
+/*Initialize the struct if it's not saved to the EEPROM*/
+void struct_init (void){
     int i, j;
     char test[10];
     for ( i = 0; i < 5; i++)
     {
-        p[i].score = 0;
+        p[i].score = 0; //Score is set to 0
 
         for ( j = 0; j < 3; j++)
-            p[i].name[j]= 42;  
-        p[i].name[3] = '\0';
+            p[i].name[j]= '*';  
+        p[i].name[3] = '\0';    //Null operator
 
         p[i].place[0]='1'+i;
         p[i].place[1] = '.';
@@ -39,6 +42,7 @@ void struct_init (void){//Initialize all scores to 0;
     } 
 }
 
+/*The function copies data from a struct and returns the copied struct*/
 struct player cpy_struct (struct player p){
     struct player temp;
     int i;
@@ -48,10 +52,10 @@ struct player cpy_struct (struct player p){
     }
     temp.name[3] = '\0';
     temp.score = p.score;
-    return temp;
+    return temp;   
 }
 
-
+/*The function checks how many digits it is in an integer*/
 int intlength (int score){
     int len = 1;
     while (score > 9) //Calculate the lengt of the integer
@@ -62,12 +66,15 @@ int intlength (int score){
     return len;
 }
 
+/*The function first takes the length from the intlength function, if the score is above the limit och the char array, which is four digits, a messages of that the score is to high
+will be shown and then you will return to the main menu. This score will be impossible to reach in the game. After that the score integer is converted into a string by extracting the 
+least significant digit first and store it in the last position and so on.*/
 void scoreToStr(int score, char* str){
     int len = intlength(score);
     int i, temp;
 
     if (len > 4){
-        display_string(0, "Score to high");
+        display_string(0, "Score to high.");
         display_string(1, "highest score is");
         display_string(2, "9999");
         display_update();
@@ -75,7 +82,7 @@ void scoreToStr(int score, char* str){
         displayMenu();
     }
 
-    for ( i = len-1; i >= 0; i--) //extract each digit of the integer and store it in the char array.
+    for ( i = len-1; i >= 0; i--) //extract each digit of the integer and store it in the char array in the oposite order (extracts the lowest digit first).
     {
         temp = score % 10;
         str[i] = temp + '0';
@@ -84,10 +91,11 @@ void scoreToStr(int score, char* str){
     str[len] = '\0';
 }
 
-
+/*To display the score on the screen it needs to be in a single string representation. This function merges each of the three elements in the struct and store it in a 
+single string. Depending on the position in the highscore list, different structs are shown. */
 void structToString (int pos)
 {
-    int i, j=0, k=0;
+    int i, j, k;
     char temp[5];
     for ( i = 0; i < 3; i++)
     {
@@ -122,7 +130,9 @@ void structToString (int pos)
         display_score[i][j]='\0';
     }
 }
-  
+
+/*Takes the position as an argument and forwards it to structToString that stores the information in the global string array display_score. Depending on the position
+different places in the highscore list will be stored in display_score.*/
 void highscore_list (int pos){
     structToString(pos);
 
@@ -133,7 +143,8 @@ void highscore_list (int pos){
     display_update();
 }
 
-
+/*If a player makes it to the highscore, the index where the player will be is calculated by another function and sent as an argument in this function. 
+This functions frees up that space where the new highscore will be.*/
 void sort_score (int index){
     int i;
     for ( i = 4; i > index; i--) 
@@ -149,10 +160,12 @@ void sort_score (int index){
  
 }
 
-
+/*First of all the position where the new player is going to write his/her name will be made free by the sort function. After that that position's name is replaced with blankspaces.
+Then the new score is saved to that position. After that you're asked to write your name. The position of which letter to provid is held by i and which letter from the alphabet
+char array you want to provide is held by j. When you've provided 3 letters the highscore will be viewed.*/
 void write_highscore (int score, int index){
     sort_score(index); //Gives place for the new highscore
-    int i=0, j=0, count=0, btns=0;
+    int i=0, j=0, btns=0;
 
     for ( i = 0; i < 3; i++)
         p[index].name[i]= ' ';//remove name
@@ -167,19 +180,18 @@ void write_highscore (int score, int index){
     display_string(2, p[index].name);
     display_update();
 
-    while (count != 3)//insert three charachers
+    while (i != 3)//insert three charachers
     {
         btns = getbtns();
-        p[index].name[i]=alphapet[j];
+        p[index].name[i]=alphabet[j];
         wait_0_1();
         display_update();
         display_string(2, p[index].name);
         if ((btns & BTN_SELECT))
         {
             display_update();
-            count++;
             i++;
-            p[index].name[i]=alphapet[j];
+            p[index].name[i]=alphabet[j];
             wait_0_1();
         }
         else if((btns & BTN_UP)){
@@ -196,14 +208,14 @@ void write_highscore (int score, int index){
                 wait_0_1();
                 }
         }
-
-
     }  
 p[index].name[3]='\0';
+wait_1();
 display_clear();
 view_highscore();
 }
 
+/*This is a test program to test the highscore list without playing the game*/
 void test_highscore(void){
     int btns = getbtns(), status = 0;
     int score= 0;
@@ -236,11 +248,11 @@ void test_highscore(void){
     new_highscore(score);
 }
 
+/*When game over, this function is called. It checks if the score is high enough to be on the top 5 highscore list. Then you either get to input your name or you go direct to
+the highscore list. */
 void new_highscore (int score){
     int index = -1, i; //-1 as start value fro index
     char temp[5];
-    timer3_conf(0.1);
-    timer3Start();
 
     for ( i = 4; i >= 0; i--)
     {
@@ -257,9 +269,7 @@ void new_highscore (int score){
         display_string(3, temp);
         display_update();
         
-
         icon_move();
-  
   
         display_clear();
         write_highscore(score, index); 
@@ -278,6 +288,7 @@ void new_highscore (int score){
     }   
 }
 
+/*This is the menu for the highscore. Pos is the position that the player is in the highscore list.*/
 void view_highscore (void){
     display_clear();
     int pos = 0;
