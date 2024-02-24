@@ -67,14 +67,14 @@ void labinit( void )
   adxl_init();  //PORTE |= 0x4;
   struct_init(); //may be remove later if we save the score to the flash memory
 
+  timer3_conf(0.01);
+  timer3Start();
 
   //This one can start when the game starts
   timer5_conf(0.01);
   timer5_interrupt();
   enable_interrupt();
   timer5Start();  
-
-
 
 }
 

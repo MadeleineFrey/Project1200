@@ -97,6 +97,32 @@ void movement(){
             render(screen); 
           }
  }
+
+
+ void aMove(){
+    if(ypos >= 28){
+                ypos = 27;
+            }
+
+    if(ypos <= 0){
+        ypos = 1;
+    }
+
+          if (ADXL_VALUE == 1) {
+            
+             ypos = ypos + 0.2;
+            draw(screen); 
+            render(screen); 
+          }
+
+           if (ADXL_VALUE == -1) {
+             ypos = ypos - 0.2;
+            draw(screen); 
+            render(screen); 
+          }
+
+
+ }
  
 
 
@@ -104,11 +130,15 @@ random_pipe_number(){
 
     int randomSeed = 0;
     int randTemp = TMR3;
-    randomSeed = (randTemp & 0xF);
-    if (randomSeed > 12)
-        randomSeed -= 10;
     
-      return randomSeed;
+   randTemp &= 0xF;
+
+// Ensure 0 is mapped to 1 since your operation could result in 0,
+// which is not within the desired 1-15 range.
+if (randTemp == 0) {
+    randTemp = 1;
+}
+      return randTemp;
 }
 
 
@@ -116,6 +146,7 @@ random_pipe_number(){
  draw_pipes_under(uint8_t *arr, int x, int y, int w){
     int i, j;
     int h = random_pipe_number();
+    y = 32 - h;
 
     if (x + w > DISPLAY_WIDTH || y + h > DISPLAY_HEIGHT) return;
 
@@ -133,9 +164,10 @@ int playing = 1; //boolean to known when you are playing or not
     while(playing) {
         clear();
         draw(screen); 
-        render(screen); 
-        movement();
-        draw_pipes_under(screen, 10, 20, 4);
+        // render(screen); 
+        // movement();
+        aMove();
+        draw_pipes_under(screen, 10, 0, 4);
         render(screen); 
 
         

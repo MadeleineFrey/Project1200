@@ -18,11 +18,14 @@ int main(void) {
 	display_clear();
 	display_update();
 
-	icon_move_start(); //bird in the startup
+	// icon_move_start(); //bird in the startup
 
 	display_clear();
+	
+
 	while( 1 )
 	{
+	  	
 	  labwork(); /* Do lab-specific things again and again */
 	}
 

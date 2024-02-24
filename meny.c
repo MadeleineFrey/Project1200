@@ -12,9 +12,7 @@ void displayMenu(pointer) {
         display_update();
 
         if(btns & BTN_SELECT) {
-        timer3_conf (0.1);
-        timer3Start ();
-        //play ();
+       play ();
         test_highscore();
         }
 
