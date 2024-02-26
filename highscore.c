@@ -16,8 +16,9 @@ terminator. The score holds the score upp to 9999. The limit of the score is set
 struct player {
     char place[3]; 
     int score;
-    char name [5]; //3 letters
+    char name [4]; //3 letters
 };
+
 /*Hold the five players on the highscore list*/
 struct player p[5];
 
