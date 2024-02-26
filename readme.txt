@@ -13,9 +13,9 @@ Efter att spelet är slut, kalla på funktionen new_highscore och skicka med sco
 
 Jag har testat timer 2-5 och de fungerar!
 Timer 2: wait-funktioner! Använd dessa funktioner, ej timern!
-Timer 3:Pipes och highscore
+Timer 3:Pipes 
 Timer 4: Används till i2c protokollet
-Timer 5: This one is for the accelerometer during game
+Timer 5: This one is for the accelerometer and buttons during game
 
 
 Jag har gjort så att om du vill använda accelerometern kan du använda den globala variabeln ADXL_VALUE. Jag har gjort så att den variabeln 
