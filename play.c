@@ -17,34 +17,34 @@
 #define DISPLAY_TURN_OFF_VDD (PORTFSET = 0x40)
 #define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
 
-//Height and width of the screen
-#define SCREEN_HEIGHT 32
-#define SCREEN_WIDTH 128
+
 //Height and width of the bird
 #define BIRDH 4
 #define BIRDW 5
 
-//
+//Height and width of the screen
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 32 
 #define PAGE_HEIGHT 8 
-#define NUM_PAGES (SCREEN_HEIGHT / PAGE_HEIGHT) 
+#define NUM_PAGES (DISPLAY_HEIGHT / PAGE_HEIGHT) 
 
-
-
-
-
-char* s;
-int randomPipeNumber = 0;
-int score = 0;
-
-
-uint8_t screen[128*4] = {0}; //Display
-extern uint8_t display[32][128];
-
+//Bird
 double xpos = 0; 
 double ypos = 12; 
-    
+
+//Pipes
+float pipeW = 4;
+float x_one = 124;
+float yp = 0;
+
+int score = 0;
+
+// Display variables and screen
+uint8_t screen[128*4] = {0};
+// extern uint8_t display[32][128]; // samma
+uint8_t screen[DISPLAY_WIDTH * NUM_PAGES]; //samma
+
+// Clear the screen    
 void clear() {
     int i;
     for (i = 0; i < sizeof(screen); i++) {
@@ -52,14 +52,12 @@ void clear() {
     }
 }
 
-uint8_t screen[DISPLAY_WIDTH * NUM_PAGES]; 
-
+//Dra bird 
 void draw(uint8_t *arr) {
     int i, j;
     if (xpos + BIRDW > DISPLAY_WIDTH || ypos + BIRDH > DISPLAY_HEIGHT) return;
 
         uint8_t bird[BIRDH] = {0b1011, 0b1001, 0b0000, 0b1000, 0b0010};
-
 
     for(i = ypos; i < ypos + BIRDH; i++) {
         for(j = xpos; j < xpos + BIRDW; j++) {
@@ -69,11 +67,9 @@ void draw(uint8_t *arr) {
             arr[page * DISPLAY_WIDTH + j] |= (1 << bit); 
         }
     }  
-
- 
 }
 
-//fixa pixlarna uppe och nere (Maxpunkt)
+// Move bird with buttons 
 void movement(){
      int btns = getbtns();
      if(ypos >= 28){
@@ -83,9 +79,7 @@ void movement(){
     if(ypos <= 0){
         ypos = 1;
     }
-
           if (btns & BTN_UP) {
-            
              ypos = ypos + 0.2;
             draw(screen); 
             render(screen); 
@@ -98,7 +92,7 @@ void movement(){
           }
  }
 
-
+// Move bird with accelerometer
  void aMove(){
     if(ypos >= 28){
                 ypos = 27;
@@ -120,21 +114,15 @@ void movement(){
             draw(screen); 
             render(screen); 
           }
-
-
  }
- 
 
 
 random_pipe_number(){
 
-    int randomSeed = 0;
-    int randTemp = TMR3;
+    int randTemp = 0;
+     randTemp = TMR3;
     
    randTemp &= 0xF;
-
-// Ensure 0 is mapped to 1 since your operation could result in 0,
-// which is not within the desired 1-15 range.
 if (randTemp == 0) {
     randTemp = 1;
 }
@@ -142,39 +130,128 @@ if (randTemp == 0) {
 }
 
 
+#define MAX_PIPES 3
+#define PIPE_SPACING 55
+float pipe_positions[MAX_PIPES] = {0}; // Array to track the x positions of pipes
+// skapa eventuellt en array med h som alla är olikt varandra
+float pipe_top_heights[MAX_PIPES];
+int pipe_count = 0; 
 
- draw_pipes_under(uint8_t *arr, int x, int y, int w){
+
+ draw_pipes_under(uint8_t *arr, float x, float he){
     int i, j;
-    int h = random_pipe_number();
-    y = 32 - h;
+    he = random_pipe_number();
+    yp = 32 - he;
 
-    if (x + w > DISPLAY_WIDTH || y + h > DISPLAY_HEIGHT) return;
+    if (x + pipeW > DISPLAY_WIDTH || yp + he > DISPLAY_HEIGHT) return;
 
-    for(i = y; i < y + h; i++) {
-        for(j = x; j < x + w; j++) {
+    for(i = yp; i < yp + he; i++) {
+        for(j = x; j < x + pipeW; j++) {
             int page = i / PAGE_HEIGHT;
             int bit = i % PAGE_HEIGHT;
-            arr[page * DISPLAY_WIDTH + j] |= (1 << bit); 
+            arr[page * DISPLAY_WIDTH + j] |= (1 << bit);
         }
     }
  }
 
-void play_r() {
-int playing = 1; //boolean to known when you are playing or not
-    while(playing) {
-        clear();
-        draw(screen); 
-        // render(screen); 
-        // movement();
-        aMove();
-        draw_pipes_under(screen, 10, 0, 4);
-        render(screen); 
+
+// Move all pipes, and draws them at new position (removes pipe that goes off screen)
+int pipe_heights[MAX_PIPES]; // Global array to store the height of each pipe
+
+void move_pipes() {
+    int i = 0;
+    int j = 0;
+
+    for (i = 0; i < pipe_count; i++) {
+        pipe_positions[i] -= 0.1;
+        draw_pipes_under(screen, pipe_positions[i], pipe_heights[i]); 
+    }
+
+    if (pipe_count == 0 || (pipe_count < MAX_PIPES && pipe_positions[pipe_count - 1] < DISPLAY_WIDTH - PIPE_SPACING)) {
+        pipe_positions[pipe_count] = DISPLAY_WIDTH;
+        // Generate a new height for the new pipe and store it in the array
+        pipe_heights[pipe_count] = random_pipe_number(); 
+        pipe_count++;
+    }
+
+    if (pipe_positions[0] < -pipeW) {
+        for (j = 0; j < pipe_count - 1; j++) {
+            pipe_positions[j] = pipe_positions[j + 1];
+            pipe_heights[j] = pipe_heights[j + 1];
+        }
+
+        pipe_count--;
+        score ++;
+    }
+}
+
+
+
+// old move
+/*  move_pipe(){
+         draw_pipes_under(screen, x_one);
+        x_one = x_one - 0.1;
+     }
+*/ 
+
+
+
+/*
+Koliderar när man rör sig första gången :/ kolla border
+*/
+int check_collision() {
+    // osäker på detta
+    float bird_left = xpos;
+    float bird_right = xpos + BIRDW - 1;
+    float bird_top = ypos;
+    float bird_bottom = ypos - BIRDH + 1;
+
+    int i = 0;
+    
+    for (i = 0; i < pipe_count; i++) {
+        // kolla varför man ej kan röra den och fortsätta
+        float pipe_left = pipe_positions[i];
+        float pipe_right = pipe_positions[i] + pipeW;
+        float upper_pipe_bottom = pipe_heights[i];
+        float lower_pipe_top = upper_pipe_bottom + pipeW;
 
         
-    }
-    }
 
-//Infinite loop that switches between the menu, high score, game, and game over
+        // Check for collision with upper pipe
+        if (bird_right > pipe_left && bird_left < pipe_right && 
+            bird_top < upper_pipe_bottom) {
+            return 1; // Collision detected
+        }
+
+        // Check for collision with lower pipe
+        if (bird_right > pipe_left && bird_left < pipe_right && 
+            bird_bottom > lower_pipe_top) {
+            return 1; // Collision detected
+        }
+    }
+    return 0; // No collision
+}
+
+void play_r() {
+    int playing = 1;
+    while(playing) {
+        clear();
+        draw(screen);
+        aMove();
+        move_pipes();
+        
+        if (check_collision()) {
+            clear();
+            new_highscore (score);
+            display_update(); //?? varför satte jag den? 
+            playing = 0;
+        }
+
+        render(screen); 
+    }
+}
+
+    
 void run() {
     while (1) {
         play_r();

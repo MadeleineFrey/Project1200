@@ -13,7 +13,7 @@ void displayMenu(pointer) {
 
         if(btns & BTN_SELECT) {
        play ();
-        test_highscore();
+        //test_highscore();
         }
 
 
