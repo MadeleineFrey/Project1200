@@ -143,7 +143,7 @@ void adxl_init (void){
 		i2c_start();
 	} while(!i2c_transmitt(ADXL345_ADDRESS << 1));
     i2c_transmitt(OFSY);
-    i2c_transmitt(-26); // 1 and 255. 0 is idle
+    i2c_transmitt(10); // 1 and 255. 0 is idle
     i2c_stop();
 
 /*Set offset for the x-axis*/
