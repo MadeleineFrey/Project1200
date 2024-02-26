@@ -64,7 +64,7 @@ uint8_t i2c_init(void){
 	the 40 MHz peripheral bus clock down */
 	I2C1BRG = 0x0C2;
 	I2C1STAT = 0x0;
-	I2C1CONSET = 1 << 13; //SIDL = 1 Testa att ta bort det här sen
+	//I2C1CONSET = 1 << 13; //SIDL = 1 Testa att ta bort det här sen
 	I2C1CONSET = 1 << 15; // ON = 1
 	temp = I2C1RCV; //Clear receive buffer
 
@@ -85,7 +85,7 @@ uint8_t i2c_recv() {
 	i2c_idle();
 	I2C1CONSET = 1 << 3; //RCEN = 1
 	i2c_idle();
-	I2C1STATCLR = 1 << 6; //I2COV = 0 TA BORT DENNA???
+	//I2C1STATCLR = 1 << 6; //I2COV = 0 TA BORT DENNA???
 	return I2C1RCV;
 }
 
