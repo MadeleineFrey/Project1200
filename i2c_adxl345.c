@@ -217,7 +217,34 @@ void zaxis_data (int * data){
 
 }
 
+/*This function recieves information from the accelerometer*/
+int adxl_rand (){
+	int data;
 
+/*First, a write condition is sent to the accelerometer telling it that we want to access the DATAY0 register*/
+		do {
+			i2c_start();
+		} while(!i2c_send(ADXL345_ADDRESS << 1)); // 0 write mode
+		i2c_send(DATAY0);
+
+/*Then, a read condition is sent to the accelerometer*/
+		do {
+			i2c_start();
+		} while(!i2c_send((ADXL345_ADDRESS << 1) | 1)); //1 read mode
+		
+/*Now, we can start recieving data from the DATAY0 register*/
+		data = i2c_recv(); //LSB
+/*By sending an acknowledgebit and then sending a recieve message again we automatically can read from the next register, in this case DATAY1*/
+		i2c_ack();
+		data |= i2c_recv() << 8; //MSB
+
+/*A nack condition is sent to the slave device to tell it that we don't expect more data. After that we stop the transmission to make the I2C bus idle*/
+		i2c_nack();
+		i2c_stop();
+/*Because our desired resolution is +-2g we need to divide it with 256 according to the data sheet.*/
+		data &= 0x0F;	//resolution +- 2g
+	return data;
+}
 
 
 

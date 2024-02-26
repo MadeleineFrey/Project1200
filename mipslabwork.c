@@ -18,6 +18,7 @@
 int data;
 int b;
 int BTN_VALUE = 0;
+int random;
 
 
 
@@ -27,6 +28,7 @@ void user_isr( void )
   if((IFS(0) & TMR5_FLAG)){ //Timer 2 interrupts
     IFS(0) &= ~TMR5_FLAG; 
     yaxis_data(&data);
+    random = adxl_rand();
     if(data == 1){//1
       PORTE = 0x0F;
       ADXL_VALUE = 1;
@@ -67,7 +69,7 @@ void labinit( void )
   adxl_init();  //PORTE |= 0x4;
   struct_init(); //may be remove later if we save the score to the flash memory
 
-  timer3_conf(25);
+  timer3_conf(0.01);
   timer3Start();
 
   //This one can start when the game starts

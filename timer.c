@@ -23,7 +23,7 @@ void timer3_conf (float setTime){
     T3CON = 0x0; //clear the control register
     T3CON = 0x70;  //prescaler 1:256 internal clock bit 15 == ON 0.1 s
     TMR3 = 0x0; //Clear timer register
-    PR3 = ((80000000)/256)/setTime;  //set the time
+    PR3 = ((80000000)/256) * setTime;  //set the time
     
 }
 

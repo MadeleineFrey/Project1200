@@ -13,6 +13,7 @@
 
 extern int ADXL_VALUE;
 extern int BTN_VALUE;
+int random;
 
 #define TMR1_FLAG 0x10
 #define TMR2_FLAG 0x100
@@ -122,6 +123,7 @@ void adxl_init (void);
 void yaxis_data (int * data);
 void xaxis_data (int * data);
 void zaxis_data (int * data);
+int adxl_rand ();
 
 
 //Written by chatGPT for controling the output of the accelerometer on the display. Not a part of the real program, just for problem solving
@@ -133,5 +135,6 @@ void new_highscore (int score);
 void view_highscore (void);
 void struct_init (void);
 void test_highscore(void);
+void scoreToStr(int score, char* str);
 
 void icon_move (void);
