@@ -35,7 +35,7 @@ double ypos = 12;
 //Pipes
 float pipeW = 4;
 float x_one = 124;
-float yp = 0;
+float yp = 0; //ta bort?
 int score = 0;
 
 //Display variables and screen.
@@ -209,9 +209,8 @@ check_collision() {
     return 0; // No collision detected
 }
 
-
+int playing = 1;
 void play_r() {
-    int playing = 1;
     int a = 1; 
     while(playing) {
 
@@ -232,6 +231,11 @@ void play_r() {
 }
     
 void run() {
+    score = 0;
+    xpos = 0;
+    ypos = 12;
+    playing = 1; 
+
     while (1) {
         play_r();
     }
