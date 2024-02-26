@@ -242,19 +242,19 @@ int adxl_rand (){
 /*First, a write condition is sent to the accelerometer telling it that we want to access the DATAY0 register*/
 		do {
 			i2c_start();
-		} while(!i2c_send(ADXL345_ADDRESS << 1)); // 0 write mode
-		i2c_send(DATAY0);
+		} while(!i2c_transmitt(ADXL345_ADDRESS << 1)); // 0 write mode
+		i2c_transmitt(DATAY0);
 
 /*Then, a read condition is sent to the accelerometer*/
 		do {
 			i2c_start();
-		} while(!i2c_send((ADXL345_ADDRESS << 1) | 1)); //1 read mode
+		} while(!i2c_transmitt((ADXL345_ADDRESS << 1) | 1)); //1 read mode
 		
 /*Now, we can start recieving data from the DATAY0 register*/
-		data = i2c_recv(); //LSB
+		data = i2c_recieve(); //LSB
 /*By sending an acknowledgebit and then sending a recieve message again we automatically can read from the next register, in this case DATAY1*/
 		i2c_ack();
-		data |= i2c_recv() << 8; //MSB
+		data |= i2c_recieve() << 8; //MSB
 
 /*A nack condition is sent to the slave device to tell it that we don't expect more data. After that we stop the transmission to make the I2C bus idle*/
 		i2c_nack();
