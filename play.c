@@ -111,7 +111,7 @@ void movement(){
 
 #define MAX_PIPES 3
 #define PIPE_SPACING 55
-#define PIPE_GAP 20
+#define PIPE_GAP 18
 
 float pipe_positions[MAX_PIPES] = {0};
 float pipe_top_heights[MAX_PIPES];
@@ -232,11 +232,15 @@ void play_r() {
 }
     
 void run() {
-    xpos = 0;
+    xpos = 2;
     ypos = 12;
     playing = 1; 
-    //Nollställ pipes
-    //Gör snabbare under tiden
+    score = 1;
+    int i;
+    for ( i = 0; i < MAX_PIPES; i++)
+    {
+        pipe_positions[i] = 0;
+    }
 
     while (1) {
         play_r();
