@@ -12,6 +12,7 @@ void displayMenu(pointer) {
         display_update();
 
         if(btns & BTN_SELECT) {
+        display_clear();
         display_string(0, "                 READY?");
         display_update();
         display_image(10, icon);
