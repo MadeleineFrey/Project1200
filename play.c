@@ -43,7 +43,7 @@ uint8_t screen[128*4] = {0};
 uint8_t screen[DISPLAY_WIDTH * NUM_PAGES]; 
 
 // Clear the screen.    
-void clear() {
+void clear_screen() {
     int i;
     for (i = 0; i < sizeof(screen); i++) {
         screen[i] = 0;
@@ -214,13 +214,13 @@ void play_r() {
     int a = 1; 
     while(playing) {
 
-        clear();
+        clear_screen();
         draw(screen);
         move_pipes();
         aMove();
         
         if (check_collision()) {
-            clear();
+            clear_screen();
             new_highscore (score);
             display_update();
             playing = 0;
