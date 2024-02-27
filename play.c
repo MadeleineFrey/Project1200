@@ -37,6 +37,7 @@ float pipeW = 4;
 float x_one = 124;
 float yp = 0; //ta bort?
 int score = 1;
+float pipe_speed = 0.10;
 
 //Display variables and screen.
 uint8_t screen[128*4] = {0};
@@ -157,7 +158,7 @@ void move_pipes() {
    int j = 0;
 
    for (i = 0; i < pipe_count; i++) {
-       pipe_positions[i] -= 0.10;
+       pipe_positions[i] -= pipe_speed;
        draw_pipes_under(screen, pipe_positions[i], pipe_heights[i]);
        draw_pipes_over(screen, pipe_positions[i], pipe_heights[i]);
    }
@@ -225,6 +226,10 @@ void play_r() {
             clear_screen();
             new_highscore (score - 1);
             playing = 0;
+        }
+
+        if (score % 10 == 0 && score != 0) { // Check if score is a multiple of 10 and not zero
+        pipe_speed = 0.10 + ((score / 10) * 0.05);
         }
 
         render(screen); 
