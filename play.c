@@ -241,12 +241,9 @@ void run() {
     ypos = 12;
     playing = 1; 
     score = 1;
-    int i;
-    for ( i = 0; i < MAX_PIPES; i++)
-    {
-        pipe_positions[i] = 0;
-    }
+    pipe_count = 0;
 
+    
     while (1) {
         play_r();
     }
