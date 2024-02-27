@@ -216,38 +216,6 @@ display_clear();
 view_highscore();
 }
 
-/*This is a test program to test the highscore list without playing the game*/
-void test_highscore(void){
-    int btns = getbtns(), status = 0;
-    int score= 0;
-    char str [5];
-    display_clear();
-    display_string(1, "score:");
-    score_to_str(score, str);
-    display_string(2, str);
-    display_update();
-    while (!(btns & BTN_RETURN))
-    {
-        btns = getbtns();
-         if ((btns & BTN_DOWN) && !status && score > 0) {
-            score--;
-            score_to_str(score, str);
-            display_string(2, str);
-            display_update();
-            status = 1;
-
-         } else if (btns & BTN_UP && !status) {
-            score++;
-            score_to_str(score, str);
-            display_string(2, str);
-            display_update();
-            status = 1;
-        }
-        else if(btns == 0)
-            status = 0;
-    }
-    new_highscore(score);
-}
 
 /*When game over, this function is called. It checks if the score is high enough to be on the top 5 highscore list. Then you either get to input your name or you go direct to
 the highscore list. */

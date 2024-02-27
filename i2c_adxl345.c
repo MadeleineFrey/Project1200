@@ -75,20 +75,24 @@ void i2c_stop() {
 	i2c_wait();
 }
 
+
+/*Written by Erica*/
 /*Since i2c doesn't use negative values it's most safe to use unsigned integers.
 First the I2C1CON register is cleared. After that we set the Baud rate to I2C standard mode (100 kHz). A table of different hexadecimal values to set the baud rate is found in the FRS
 After that the STAT register is cleared. Then it starts the I2C communication by setting the on-bit.  The recieve buffer is cleared
 for good practise. That operation may not be optimized by the compiler because it has a side effect. When the software reads from
 the RCV register the I2CSTAT RBF bit is cleared. */
 void i2c_init(void){
-    uint8_t temp; 
+    volatile uint8_t temp; 
 	I2C1CON = 0x0;
 	I2C1BRG = 0x0C2; //PBCLK = 40MHz
 	I2C1STAT = 0x0;
 	I2C1CONSET = 1 << 15; // ON = 1
-	//volatile uint8_t temp = I2C1RCV; //Clear receive buffer for good practise.
+	temp = I2C1RCV; //Clear receive buffer for good practise.
 
     }
+
+
 
 /* First, check if the i2c bus is used by another i2c operation, then it send the data to the transmitt register in the i2c buss. After that tha acknowledge status is returned.
 If the reciever sends an acknowledgebit the ACKSTAT bit is 0, of it is no acknowledged the ACKSTAT bit is 1.*/
@@ -108,7 +112,7 @@ uint8_t i2c_rx() {
 	return I2C1RCV;
 }
 
-/*Written by Erica*/
+
 
 /*This function initializes the ADXL345 accelerometer*/
 void adxl_init (void){
@@ -120,7 +124,7 @@ void adxl_init (void){
 	} while(!i2c_tx(ADXL345_ADDRESS << 1));
     i2c_tx(POWER_CTL);
     // measurer enable bit in the power control register
-    i2c_tx(0x08);
+    i2c_tx(1<<3);
     i2c_stop();
 
 	/*Send write information to the data format register about the resolution*/
@@ -188,7 +192,7 @@ void yaxis_data (int * data){
 		i2c_nack();
 		i2c_stop();
 /*Because our desired resolution is +-2g we need to divide it with 256 according to the data sheet.*/
-		*data = *data/126;	//resolution +- 2g
+		*data = *data/128;	//resolution +- 2g
 
 }
 
