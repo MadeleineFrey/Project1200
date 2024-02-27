@@ -12,7 +12,21 @@ void displayMenu(pointer) {
         display_update();
 
         if(btns & BTN_SELECT) {
- 
+        display_string(0, "                 READY?");
+        display_update();
+        display_image(10, icon);
+        wait_0_5();
+        display_image(10, icon2);
+        wait_0_5();
+        display_string(1, "                 SET");
+        display_update();
+        display_image(10, icon);
+        wait_0_5();
+        display_image(10, icon2);
+        wait_0_5();
+        display_string(2, "                 GOOO!");
+        display_image(10, icon);
+        wait_1();
         play ();
         }
 
