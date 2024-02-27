@@ -36,7 +36,7 @@ double ypos = 12;
 float pipeW = 4;
 float x_one = 124;
 float yp = 0; //ta bort?
-int score = 0;
+int score = 1;
 
 //Display variables and screen.
 uint8_t screen[128*4] = {0};
@@ -166,7 +166,6 @@ void move_pipes() {
        pipe_positions[pipe_count] = DISPLAY_WIDTH;
        pipe_heights[pipe_count] = random;
        pipe_count++;
-
    }
 
    if (pipe_positions[0] < -pipeW) {
@@ -175,8 +174,9 @@ void move_pipes() {
            pipe_heights[j] = pipe_heights[j + 1];
        }
        pipe_count--;
-        score++;      
+       score++;
    }
+   
 }
 
 check_collision() {
@@ -205,9 +205,10 @@ check_collision() {
             bird_bottom > 0 && bird_top < top_pipe_bottom) {
             return 1; // Collision detected
         }
-    }
 
+    }
     return 0; // No collision detected
+    
 }
 
 int playing = 1;
@@ -222,8 +223,7 @@ void play_r() {
         
         if (check_collision()) {
             clear_screen();
-            new_highscore (score);
-            display_update();
+            new_highscore (score - 1);
             playing = 0;
         }
 
@@ -232,7 +232,6 @@ void play_r() {
 }
     
 void run() {
-    score = 0;
     xpos = 0;
     ypos = 12;
     playing = 1; 
