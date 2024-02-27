@@ -13,7 +13,8 @@
 
 extern int ADXL_VALUE;
 extern int BTN_VALUE;
-int random;
+extern int random;
+//extern u_int8_t I2C_ENABLE = 1;
 
 #define TMR1_FLAG 0x10
 #define TMR2_FLAG 0x100
@@ -118,23 +119,19 @@ void enable_interrupt(void);
 
 
 //I2C accelerometer
-uint8_t i2c_init(void);
+void i2c_init(void);
 void adxl_init (void);
 void yaxis_data (int * data);
 void xaxis_data (int * data);
 void zaxis_data (int * data);
-int adxl_rand ();
-
-
-//Written by chatGPT for controling the output of the accelerometer on the display. Not a part of the real program, just for problem solving
-char* intToStr(int value);
+int adxl_rand (int timer);
 
 
 
 void new_highscore (int score);
-void view_highscore (void);
+//void view_highscore (void);
 void struct_init (void);
 void test_highscore(void);
-void scoreToStr(int score, char* str);
+void score_to_str(int score, char* str);
 
 void icon_move (void);

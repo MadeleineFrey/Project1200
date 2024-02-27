@@ -20,7 +20,7 @@ int b;
 int BTN_VALUE = 0;
 int random;
 
-
+char test[10]; //delete later!!
 
 /* Interrupt Service Routine */
 void user_isr( void )
@@ -28,12 +28,12 @@ void user_isr( void )
   if((IFS(0) & TMR5_FLAG)){ //Timer 2 interrupts
     IFS(0) &= ~TMR5_FLAG; 
     yaxis_data(&data);
-    random = adxl_rand();
-    if(data == 1){//1
+    random = adxl_rand(TMR3);
+    if(data <= 3 && data > 0){//1
       PORTE = 0x0F;
       ADXL_VALUE = 1;
     }
-    else if(data == 0xFF){//-1
+    else if(data <=520 && data >500){//-1
       PORTE = 0xF0;
       ADXL_VALUE = -1;
     }
@@ -69,7 +69,9 @@ void labinit( void )
   adxl_init();  //PORTE |= 0x4;
   struct_init(); //may be remove later if we save the score to the flash memory
 
-  timer3_conf(0.01);
+
+//random timer
+  timer3_conf(0.0013);
   timer3Start();
 
   //This one can start when the game starts
@@ -83,8 +85,8 @@ void labinit( void )
 /* This function is called repetitively from the main program */
 void labwork( void )
 { 
-
-  start_menu();
+  //test_adxl();
+ start_menu();
  
 }
   
@@ -96,7 +98,7 @@ void start_menu (void){
   	display_string(1, "> Play");
  	  display_string(2, "  Highscore");
   	display_update();
-    //display_image(96, icon);
+    display_image(96, icon);
 
     wait_1();//This wait is to prevent dubble click
 
@@ -108,11 +110,13 @@ void start_menu (void){
          if ((btns & BTN_DOWN)) {
              if (pointer > 1) pointer--;
             displayMenu(pointer);
+            display_image(96, icon);
             wait_0_2();
 
          } else if ((btns & BTN_UP)) {
              if (pointer < 2) pointer++;
             displayMenu(pointer);
+            display_image(96, icon2);
             wait_0_2();
 
          } else if ((btns & BTN_SELECT)) {
@@ -124,4 +128,14 @@ void start_menu (void){
              break; // Exit the loop
          }
   } 
+}
+
+void test_adxl(void){
+  char test[5];
+  score_to_str(data, test);
+  display_clear();
+  display_string(0, "test:");
+  display_string(1, test);
+  display_update();
+  wait_0_5();
 }

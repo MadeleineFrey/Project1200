@@ -57,7 +57,7 @@ struct player cpy_struct (struct player p){
 }
 
 /*The function checks how many digits it is in an integer*/
-int intlength (int score){
+int int_length (int score){
     int len = 1;
     while (score > 9) //Calculate the lengt of the integer
     {
@@ -67,11 +67,11 @@ int intlength (int score){
     return len;
 }
 
-/*The function first takes the length from the intlength function, if the score is above the limit och the char array, which is four digits, a messages of that the score is to high
+/*The function first takes the length from the int_length function, if the score is above the limit och the char array, which is four digits, a messages of that the score is to high
 will be shown and then you will return to the main menu. This score will be impossible to reach in the game. After that the score integer is converted into a string by extracting the 
 least significant digit first and store it in the last position and so on.*/
-void scoreToStr(int score, char* str){
-    int len = intlength(score);
+void score_to_str(int score, char* str){
+    int len = int_length(score);
     int i, temp;
 
     if (len > 4){
@@ -94,7 +94,7 @@ void scoreToStr(int score, char* str){
 
 /*To display the score on the screen it needs to be in a single string representation. This function merges each of the three elements in the struct and store it in a 
 single string. Depending on the position in the highscore list, different structs are shown. */
-void structToString (int pos)
+void struct_to_string (int pos)
 {
     int i, j, k;
     char temp[5];
@@ -120,7 +120,7 @@ void structToString (int pos)
         display_score[i][j] = '\t';
         j++;
 
-        scoreToStr(p[i+pos].score, temp);
+        score_to_str(p[i+pos].score, temp);
         k=0;
         while (temp[k] != '\0')
         {
@@ -132,10 +132,10 @@ void structToString (int pos)
     }
 }
 
-/*Takes the position as an argument and forwards it to structToString that stores the information in the global string array display_score. Depending on the position
+/*Takes the position as an argument and forwards it to struct_to_string that stores the information in the global string array display_score. Depending on the position
 different places in the highscore list will be stored in display_score.*/
 void highscore_list (int pos){
-    structToString(pos);
+    struct_to_string(pos);
 
     display_string(0, "Highscore");
     display_string(1, display_score[0]);
@@ -223,7 +223,7 @@ void test_highscore(void){
     char str [5];
     display_clear();
     display_string(1, "score:");
-    scoreToStr(score, str);
+    score_to_str(score, str);
     display_string(2, str);
     display_update();
     while (!(btns & BTN_RETURN))
@@ -231,14 +231,14 @@ void test_highscore(void){
         btns = getbtns();
          if ((btns & BTN_DOWN) && !status && score > 0) {
             score--;
-            scoreToStr(score, str);
+            score_to_str(score, str);
             display_string(2, str);
             display_update();
             status = 1;
 
          } else if (btns & BTN_UP && !status) {
             score++;
-            scoreToStr(score, str);
+            score_to_str(score, str);
             display_string(2, str);
             display_update();
             status = 1;
@@ -259,8 +259,11 @@ void new_highscore (int score){
     {
         if(score > p[i].score) //check if current score is higher than the previous
             index = i;
+        else if  (p[i].name[0] == '*')
+            index = i;
+        
     }
-        scoreToStr(score, temp);
+        score_to_str(score, temp);
 
     if (index != -1)
     {

@@ -12,8 +12,8 @@ void displayMenu(pointer) {
         display_update();
 
         if(btns & BTN_SELECT) {
-       play ();
-        //test_highscore();
+ 
+        play ();
         }
 
 
