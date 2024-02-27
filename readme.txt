@@ -1,25 +1,7 @@
-Ändringarna som jag har gjort:
-initierat BTN_RETURN. Det är knappen längst till höger som vi kan använda som en tillbaka knapp
+This is a modified flappy bird game. To play the game you need an ADXL345 accelerometer connected to the PIC32 
+microcontroler's I2C ports. 
 
-Flyttade define BTN till h-filen så vi kommer åt dem i alla filer
-La även till globala variabler för input från knappar och accelerometern under spelet
+The charachter in the game is controlled by tilting the chipkit. The button to the left is the select button and the two buttons
+next to it scrolls up and down in the menus. No buttons are used during the game play. 
 
-Jag ändrade så att jag satte menyn under labwork i en funktion. Detta är för att kunna hoppa tillbaka till menyn från highscore - listan. 
-Jag vet dock inte om man vill använda knappen längst till vänster för return ellet till höger??
-
-Jag har lagt in en wait-funktion i menyn så att den inte ska tro att man vill spela direkt då man vill tillbaka från highscore menyn. 
-
-Efter att spelet är slut, kalla på funktionen new_highscore och skicka med score. Den kollar först om score kvalar sig in på highscore och därefter får man mata in sitt namn.
-
-Jag har testat timer 2-5 och de fungerar!
-Timer 2: wait-funktioner! Använd dessa funktioner, ej timern!
-Timer 3:Pipes 
-Timer 4: Används till i2c protokollet
-Timer 5: This one is for the accelerometer and buttons during game
-
-
-Jag har gjort så att om du vill använda accelerometern kan du använda den globala variabeln ADXL_VALUE. Jag har gjort så att den variabeln 
-hela tiden bör ha information om åt vilket håll som sensorn är vinklad.
-
-
-
+To compile the game, use the MCB32 Tools compiler. Compile it by typing make followed by make install. 
