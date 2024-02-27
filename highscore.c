@@ -259,9 +259,9 @@ void new_highscore (int score){
     {
         if(score > p[i].score) //check if current score is higher than the previous
             index = i;
-        else if  (p[i].name == "***"){
+        else if  (p[i].name[0] == '*')
             index = i;
-        }
+        
     }
         score_to_str(score, temp);
 

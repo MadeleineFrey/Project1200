@@ -29,7 +29,7 @@
 #define NUM_PAGES (DISPLAY_HEIGHT / PAGE_HEIGHT) 
 
 //Bird
-double xpos = 0; 
+double xpos = 2; 
 double ypos = 12; 
 
 //Pipes
@@ -53,7 +53,7 @@ void clear() {
 //Draw bird 
 void draw(uint8_t *arr) {
     int i, j;
-    if (xpos + BIRDW > DISPLAY_WIDTH || ypos + BIRDH > DISPLAY_HEIGHT) return;
+    if (ypos + BIRDH > DISPLAY_HEIGHT) return;
 
     for(i = ypos; i < ypos + BIRDH; i++) {
         for(j = xpos; j < xpos + BIRDW; j++) {
@@ -99,12 +99,12 @@ void movement(){
     }
           if (ADXL_VALUE == 1) {
             
-             ypos = ypos + 0.2;
+             ypos = ypos + 0.1;
             draw(screen); 
           }
 
            if (ADXL_VALUE == -1) {
-             ypos = ypos - 0.2;
+             ypos = ypos - 0.1;
             draw(screen); 
           }
  }
@@ -157,7 +157,7 @@ void move_pipes() {
    int j = 0;
 
    for (i = 0; i < pipe_count; i++) {
-       pipe_positions[i] -= 0.05;
+       pipe_positions[i] -= 0.10;
        draw_pipes_under(screen, pipe_positions[i], pipe_heights[i]);
        draw_pipes_over(screen, pipe_positions[i], pipe_heights[i]);
    }
@@ -166,6 +166,7 @@ void move_pipes() {
        pipe_positions[pipe_count] = DISPLAY_WIDTH;
        pipe_heights[pipe_count] = random;
        pipe_count++;
+
    }
 
    if (pipe_positions[0] < -pipeW) {
@@ -174,7 +175,7 @@ void move_pipes() {
            pipe_heights[j] = pipe_heights[j + 1];
        }
        pipe_count--;
-       score++;
+        score++;      
    }
 }
 
@@ -235,6 +236,8 @@ void run() {
     xpos = 0;
     ypos = 12;
     playing = 1; 
+    //Nollställ pipes
+    //Gör snabbare under tiden
 
     while (1) {
         play_r();
