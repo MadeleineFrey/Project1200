@@ -91,9 +91,10 @@ void labwork( void )
 }
   
 void start_menu (void){
-  int pointer = 1; // Start with the first choice selected
+  int pointer = 1; // Choice selected
   int selected = 0; // No choice selected initially
 
+//First distlay
     display_string(0, "Flappy Bird");
   	display_string(1, "> Play");
  	  display_string(2, "  Highscore");
@@ -102,10 +103,9 @@ void start_menu (void){
 
     wait_1();//This wait is to prevent dubble click
 
-
+//Use buttons to navigate through the menu
    while (!selected) {
          int btns = getbtns();
-
 
          if ((btns & BTN_DOWN)) {
              if (pointer > 1) pointer--;
