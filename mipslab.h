@@ -32,9 +32,7 @@ uint8_t spi_send_recv(uint8_t data);
 /* Declare lab-related functions from mipslabfunc.c */
 char * itoaconv( int num );
 void labwork(void);
-int nextprime( int inval );
 void quicksleep(int cyc);
-void tick( unsigned int * timep );
 void labinit( void );
 
 void start_menu (void);
@@ -69,29 +67,8 @@ void wait_4 (void);
 void wait_5 (void);
 
 //Game
-void highscore (void);
 void play (void);
 void run();
-random_pipe_number();
-
-//menu
-// void select();
-
-
-
-/* Declare display_debug - a function to help debugging.
-
-   After calling display_debug,
-   the two middle lines of the display show
-   an address and its current contents.
-
-   There's one parameter: the address to read and display.
-
-   Note: When you use this function, you should comment out any
-   repeated calls to display_image; display_image overwrites
-   about half of the digits shown by display_debug.
-*/
-void display_debug( volatile int * const addr );
 
 /* Declare bitmap array containing font */
 extern const uint8_t const font[128*8];
@@ -106,16 +83,10 @@ extern char textbuffer[4][16];
    students must define their functions with the exact types
    specified in the laboratory instructions. */
 /* Written as part of asm lab: delay, time2string */
-void delay(int);
-void time2string( char *, int );
 /* Written as part of i/o lab: getbtns, getsw, enable_interrupt */
 int getbtns(void);
 int getsw(void);
 void enable_interrupt(void);
-
-
-
-
 
 
 //I2C accelerometer
@@ -126,12 +97,6 @@ void xaxis_data (int * data);
 void zaxis_data (int * data);
 int adxl_rand (int timer);
 
-
-
 void new_highscore (int score);
-//void view_highscore (void);
 void struct_init (void);
-void test_highscore(void);
-void score_to_str(int score, char* str);
-
 void icon_move (void);
