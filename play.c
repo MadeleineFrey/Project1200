@@ -69,7 +69,7 @@ void clear_screen() {
 //Draw bird, Drawing bird and calculates and sets the appropriate bits for each pixel's position.
 void draw(uint8_t *arr) {
     int i, j;
-    if (ypos + BIRDH > DISPLAY_HEIGHT || ypos <= 0) return;
+    //if (ypos + BIRDH > DISPLAY_HEIGHT || ypos < 0) return;
 
 // Loop through each pixel in the bird's height
     for(i = ypos - 0.5; i < ypos - 0.5 + BIRDH; i++) {
@@ -85,53 +85,33 @@ void draw(uint8_t *arr) {
     }  
 }
 
-/*
-//Move bird with buttons
 
-void movement(){
-     int btns = getbtns();
-     if(ypos >= 28){
-                ypos = 27;
-            }
-
-    if(ypos <= 0){
-        ypos = 1;
-    }
-          if (btns & BTN_UP) {
-             ypos = ypos + 0.2;
-            draw(screen); 
-            render(screen); 
-          }
-
-           if (btns & BTN_DOWN) {
-             ypos = ypos - 0.2;
-            draw(screen); 
-            render(screen); 
-          }
- }
-
- */
 
 // Move bird upp and down with accelerometer.
  void aMove(){
 
-    //Display bounderies.
-    if(ypos >= 28){
-                ypos = 27;
-            }
-    if(ypos <= 1){
-        ypos = 2;
-    }
           if (ADXL_VALUE == 1) {
-            //move bird + 0.1 pixels
-             ypos = ypos + 0.1;
-            draw(screen); //Draw bird with new value
+            if (ypos < 28)
+            {
+                //move bird + 0.1 pixels
+                draw(screen); //Draw bird with new value
+                ypos = ypos + 0.1;
+
+            }
+            
+
           }
 
            if (ADXL_VALUE == -1) {
-            //move bird  0.1 pixels
-             ypos = ypos - 0.1;
-            draw(screen); //Draw bird with new value
+            if (ypos > 01)
+            {
+                //move bird  0.1 pixels
+                draw(screen); //Draw bird with new value
+                ypos = ypos - 0.1;
+
+            }
+            
+
           }
  }
 
