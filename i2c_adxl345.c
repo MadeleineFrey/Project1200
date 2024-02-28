@@ -25,6 +25,7 @@ void i2c_wait() {
 					display_clear();
 					display_string(0, "I2C ERROR");
 					wait_2();
+					i2c_init();
 					displayMenu();
 				}
 		}
