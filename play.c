@@ -18,6 +18,7 @@
 #define DISPLAY_TURN_OFF_VDD (PORTFSET = 0x40)
 #define DISPLAY_TURN_OFF_VBAT (PORTFSET = 0x20)
 
+//Written by Madeleine Frey 
 
 //Height and width of the bird
 #define BIRDH 4
@@ -43,8 +44,6 @@ float pipe_speed = 0.10;
 
 //Display variables and screen.
 uint8_t screen[128*4] = {0};
-// uint8_t screen[DISPLAY_WIDTH * NUM_PAGES]; 
-
 
 //Move variables
 #define MAX_PIPES 3
@@ -83,8 +82,6 @@ void draw(uint8_t *arr) {
     }  
 }
 
-
-
 // Move bird upp and down with accelerometer.
  void aMove(){
 
@@ -94,10 +91,7 @@ void draw(uint8_t *arr) {
                 //move bird + 0.1 pixels
                 draw(screen); //Draw bird with new value
                 ypos = ypos + 0.1;
-
             }
-            
-
           }
 
            if (ADXL_VALUE == -1) {
@@ -108,8 +102,6 @@ void draw(uint8_t *arr) {
                 ypos = ypos - 0.1;
 
             }
-            
-
           }
  }
 
