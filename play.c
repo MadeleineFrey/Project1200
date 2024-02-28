@@ -69,8 +69,6 @@ void clear_screen() {
 //Draw bird, Drawing bird and calculates and sets the appropriate bits for each pixel's position.
 void draw(uint8_t *arr) {
     int i, j;
-    //if (ypos + BIRDH > DISPLAY_HEIGHT || ypos < 0) return;
-
 // Loop through each pixel in the bird's height
     for(i = ypos - 0.5; i < ypos - 0.5 + BIRDH; i++) {
          // Loop through each pixel in the bird's width
@@ -258,7 +256,7 @@ void play_r() {
         if (score % 10 == 0 && score != 0) { 
         pipe_speed = 0.10 + ((score / 10) * 0.05);
         }
-        render(screen);  // Render the updated screen to the display.
+        view(screen);  // View the updated screen to the display.
     }
 }
     
@@ -277,8 +275,8 @@ void run() {
 }
 
 //copied from display_image function.
-// Function to render on a display using SPI communication.
-void render(uint8_t *arr) {
+// Function to view on a display using SPI communication.
+void view(uint8_t *arr) {
     int i, j;
 
 // Loop through each of the 4 pages of the display
