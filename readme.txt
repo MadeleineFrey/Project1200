@@ -5,3 +5,5 @@ The charachter in the game is controlled by tilting the chipkit. The button to t
 next to it scrolls up and down in the menus. No buttons are used during the game play. 
 
 To compile the game, use the MCB32 Tools compiler. Compile it by typing make followed by make install. 
+
+For copyright, see copying file.
