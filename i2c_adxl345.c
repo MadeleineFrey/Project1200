@@ -123,49 +123,49 @@ void adxl_init (void){
 	do {
 		i2c_start();
 	} while(!i2c_tx(ADXL345_ADDRESS << 1));
-    i2c_tx(POWER_CTL);
+	while (!i2c_tx(POWER_CTL));
     // measurer enable bit in the power control register
-    i2c_tx(1<<3);
+	while (!i2c_tx(1<<3));
     i2c_stop();
 
 	/*Send write information to the data format register about the resolution*/
 	do {
 		i2c_start();
 	} while(!i2c_tx(ADXL345_ADDRESS << 1));
-    i2c_tx(DATA_FORMAT);
-    i2c_tx(0x0); //+-2 g resolution 10 bit mode
+	while (!i2c_tx(DATA_FORMAT));
+	while (!i2c_tx(0x0)); //+-2 g resolution 10 bit mode
     i2c_stop();
 
 /*Set the baud rate*/
 	do {
 		i2c_start();
 	} while(!i2c_tx(ADXL345_ADDRESS << 1));
-    i2c_tx(BW_RATE);
-    i2c_tx(0x0A); // 100 Hz datarate
+	while (!i2c_tx(BW_RATE));
+	while (!i2c_tx(0x0A)); // 100 Hz datarate
     i2c_stop();
 
 /*Set offset for the y-axis*/
 	do {
 		i2c_start();
 	} while(!i2c_tx(ADXL345_ADDRESS << 1));
-    i2c_tx(OFSY);
-    i2c_tx(10); // 1 and 255. 0 is idle
+	while (!i2c_tx(OFSY));
+	while (!i2c_tx(10)); // 1 and 255. 0 is idle
     i2c_stop();
 
 /*Set offset for the x-axis*/
 	do {
 		i2c_start();
 	} while(!i2c_tx(ADXL345_ADDRESS << 1));
-    i2c_tx(OFSX);
-    i2c_tx(0x10); // 
+	while (!i2c_tx(OFSX));
+	while (!i2c_tx(0x10));  
     i2c_stop();
 
 /*Set offset for the z-axis*/
 	do {
 		i2c_start();
 	} while(!i2c_tx(ADXL345_ADDRESS << 1));
-    i2c_tx(OFSZ);
-    i2c_tx(0x6); // 
+	while (!i2c_tx(OFSZ));
+	while (!i2c_tx(0x6)); // 
     i2c_stop();
 }
 
@@ -176,7 +176,7 @@ void yaxis_data (int * data){
 		do {
 			i2c_start();
 		} while(!i2c_tx(ADXL345_ADDRESS << 1)); // 0 write mode
-		i2c_tx(DATAY0);
+		while (!i2c_tx(DATAY0));
 
 /*Then, a read condition is sent to the accelerometer*/
 		do {
@@ -203,7 +203,7 @@ void xaxis_data (int * data){
 		do {
 			i2c_start();
 		} while(!i2c_tx(ADXL345_ADDRESS << 1)); 
-		i2c_tx(DATAX0);
+		while (!i2c_tx(DATAX0));
 
 		do {
 			i2c_start();
@@ -225,7 +225,7 @@ void zaxis_data (int * data){
 		do {
 			i2c_start();
 		} while(!i2c_tx(ADXL345_ADDRESS << 1)); 
-		i2c_tx(DATAZ0);
+		while (i2c_tx(DATAZ0));
 
 		do {
 			i2c_start();
@@ -249,7 +249,7 @@ int adxl_rand (int timer){
 		do {
 			i2c_start();
 		} while(!i2c_tx(ADXL345_ADDRESS << 1)); // 0 write mode
-		i2c_tx(DATAY0);
+		while (!i2c_tx(DATAY0));
 
 /*Then, a read condition is sent to the accelerometer*/
 		do {

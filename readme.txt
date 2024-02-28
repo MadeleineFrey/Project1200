@@ -6,4 +6,6 @@ next to it scrolls up and down in the menus. No buttons are used during the game
 
 To compile the game, use the MCB32 Tools compiler. Compile it by typing make followed by make install. 
 
+If you want to make the 3D printed platform for the chip-kit, use the stl-file.
+
 For copyright, see copying file.
