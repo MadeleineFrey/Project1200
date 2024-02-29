@@ -30,15 +30,12 @@ void user_isr( void )
     yaxis_data(&data);
     random = adxl_rand(TMR3);
     if(data <= 3 && data > 0){//1
-      PORTE = 0x0F;
       ADXL_VALUE = 1;
     }
     else if(data <=520 && data >500){//-1
-      PORTE = 0xF0;
       ADXL_VALUE = -1;
     }
     else{
-      PORTE = 0;
       ADXL_VALUE = 0;
     }
 
@@ -54,8 +51,6 @@ void user_isr( void )
     }
   }
 
-  //Acknowledge interrupts
-  //0x001 IFS(0).T2IF
 }
 
 /* Lab-specific initialization goes here */
@@ -85,11 +80,11 @@ void labinit( void )
 /* This function is called repetitively from the main program */
 void labwork( void )
 { 
-  //test_adxl();
  start_menu();
  
 }
   
+/*By Madeleine Frey*/
 void start_menu (void){
   int pointer = 1; // Choice selected
   int selected = 0; // No choice selected initially
@@ -128,14 +123,4 @@ void start_menu (void){
              break; // Exit the loop
          }
   } 
-}
-
-void test_adxl(void){
-  char test[5];
-  score_to_str(data, test);
-  display_clear();
-  display_string(0, "test:");
-  display_string(1, test);
-  display_update();
-  wait_0_5();
 }

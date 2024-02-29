@@ -188,18 +188,6 @@ void display_update(void) {
 }
 
 void display_clear() { 
-  // int row, column, i;
-
-  // for(row = 0; row < 32; row++) {
-  //   for(column = 0; column < 128; column++) {
-  //     display[row][column] = 0;
-  //   }
-  // }
-
-  // for (i = 0; i < 512; i++) {
-  //   oled_display[i] = 0;
-  // }
-
   int i, j;
 
     for (i = 0; i < 4; i++){

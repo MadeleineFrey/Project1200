@@ -14,13 +14,13 @@
 extern int ADXL_VALUE;
 extern int BTN_VALUE;
 extern int random;
-//extern u_int8_t I2C_ENABLE = 1;
 
 #define TMR1_FLAG 0x10
 #define TMR2_FLAG 0x100
 #define TMR3_FLAG 0x1000
 #define TMR4_FLAG 0x10000
 #define TMR5_FLAG 0x100000
+
 /* Declare display-related functions from mipslabfunc.c */
 void start_init (void);
 void display_image(int x, const uint8_t *data);

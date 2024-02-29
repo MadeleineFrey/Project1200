@@ -6,7 +6,6 @@
 #include "mipslab.h"  
 
 int ADXL_VALUE=0; //This is the signal from the accelerometer
-//u_int8_t I2C_ENABLE = 1;
 
 /* Wait for I2C bus to become idle. Checks if any of the ACKEN, RCEN, PEN, RSEN, SEN bits are set to 1 and if the TRSTAT bit are set to 1.
 If any of the bits are set to 1, an I2C operation is in progress. If the TRSTAT bit is set a tranmit operation is in progress. */
@@ -109,7 +108,6 @@ uint8_t i2c_rx() {
 	i2c_wait();
 	I2C1CONSET = 1 << 3; //RCEN = 1
 	i2c_wait();
-	//I2C1STATCLR = 1 << 6; //I2COV = 0 TA BORT DENNA???
 	return I2C1RCV;
 }
 
@@ -149,7 +147,7 @@ void adxl_init (void){
 		i2c_start();
 	} while(!i2c_tx(ADXL345_ADDRESS << 1));
 	while (!i2c_tx(OFSY));
-	while (!i2c_tx(10)); // 1 and 255. 0 is idle
+	while (!i2c_tx(10)); 
     i2c_stop();
 
 /*Set offset for the x-axis*/
@@ -265,7 +263,7 @@ int adxl_rand (int timer){
 /*A nack condition is sent to the slave device to tell it that we don't expect more data. After that we stop the transmission to make the I2C bus idle*/
 		i2c_nack();
 		i2c_stop();
-/*Because our desired resolution is +-2g we need to divide it with 256 according to the data sheet.*/
+		
 		data += timer;
 		data &= 0x0F;	//resolution +- 2g
 	return data;

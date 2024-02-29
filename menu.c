@@ -2,6 +2,7 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
+/*By Madeleine Frey*/
 void displayMenu(pointer) {
          int btns = getbtns();
 
@@ -31,7 +32,7 @@ void play (void) {
   run();
  }
 
-
+/*By Erica Engborg*/
 void icon_move (void){
   int count = 0;
   display_image(96, icon);

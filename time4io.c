@@ -2,6 +2,7 @@
 #include <pic32mx.h>
 #include "mipslab.h"
 
+/*By Erica Engborg and Madeleine Frey*/
 int getsw(void){
     int sw = (PORTD >> 8) & 0x0F; //isolate bit 8-11
 

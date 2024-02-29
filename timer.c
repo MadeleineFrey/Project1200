@@ -2,10 +2,9 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
-
+/*Written by Erica Engborg*/
 
 void timer2_conf (float setTime){
-//TIMER2 
   T2CON = 0x0; //stop timer and clear the control register
   T2CON = 0x70;  //prescaler 1:256 internal clock bit 15 == ON 0.1 s
   TMR2 = 0x0; //Clear timer register
