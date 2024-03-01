@@ -195,7 +195,7 @@ void move_pipes() {
    }
 }
 
-check_collision() {
+int check_collision() {
     //Border for the bird.
     int bird_left = xpos;
     int bird_right = xpos + BIRDW;
